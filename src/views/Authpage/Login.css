@@ -1,0 +1,272 @@
+.container {
+  /* color: var(--word-color); */
+  display: flex;
+  -webkit-box-pack: center;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0px 50px;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.header .header-title {
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  font-size: 28px;
+  color: rgb(211, 211, 211);
+  font-family: 'Avenir Next LT Pro' !important;
+}
+
+.header .header-section {
+  margin: 4px 0px 0px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  font-size: 20px;
+  color: rgb(211, 211, 211);
+  font-family: 'Avenir Next LT Pro' !important;
+}
+
+.form-container {
+  width: 100%;
+}
+
+.login-form{
+    margin-top: 5px;
+}
+
+/* .main-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.label {
+  color: var(--word-color);
+  font-size: 12px;
+  font-family: 'Avenir Next LT Pro' !important;
+  margin-bottom: 3px;
+}
+
+.inner-container {
+  display: inline-flex;
+  flex-direction: column;
+  position: relative;
+
+  padding: 0px;
+  margin: 4px 0px 0px;
+  border: 0px;
+  vertical-align: top;
+  width: 100%;
+}
+
+.input-icon-container {
+  border: none;
+  background-color: rgb(45, 45, 45);
+  border-radius: 0px;
+  color: rgb(141, 141, 141);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4375em;
+  letter-spacing: 0.00938em;
+  box-sizing: border-box;
+  cursor: text;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  padding-left: 14px;
+  padding-right: 8px;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Avenir Next LT Pro' !important;
+}
+
+.input-icon-container .input {
+  width: 100%;
+}
+
+.input-icon-container .input input {
+  background-color: #e8f0fe00;
+  color: var(--word-color);
+  letter-spacing: 0.3px;
+  outline: none;
+  border: 0px;
+  box-sizing: content-box;
+  background: none;
+  height: 1.4375em;
+  margin: 0px;
+  display: block;
+  width: 100%;
+  padding: 8.5px 14px 8.5px 0px;
+}
+
+.inner-container .validations {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.03333em;
+  text-align: left;
+  margin: 4px 0px 0px;
+  line-height: 16px;
+}
+
+.inner-container .validations p {
+  font-size: 12px;
+  color: rgb(255, 0, 0);
+  margin: 4px 0px 0px;
+  height: 16px;
+} */
+.links{
+  width: 100%;
+}
+
+.links .forgot-password {
+  margin: 0px;
+  text-decoration: none;
+  font-size: 14px;
+  color: rgb(51, 122, 183);
+  font-family: 'Avenir Next LT Pro' !important;
+  float: right;
+}
+
+.forgot-password:hover{
+    text-decoration: underline;
+}
+
+
+.btn-submit {
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  margin: 28px 0px 0px;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  appearance: none;
+  text-decoration: none;
+  font-weight: 500;
+  line-height: 1.75;
+  letter-spacing: 0.02857em;
+  min-width: 64px;
+  padding: 6px 16px;
+  transition:
+    background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0px 3px 1px -2px,
+    rgba(0, 0, 0, 0.14) 0px 2px 2px 0px,
+    rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+  width: 100%;
+  color: rgb(255, 255, 255);
+  border: none;
+  outline: none;
+  font-size: 18px;
+  border-radius: 40px;
+  background-color: rgb(255, 93, 59);
+  text-transform: capitalize;
+  font-family: 'Avenir Next LT Pro' !important;
+}
+
+.btn-submit:hover {
+  text-decoration: none;
+  background-color: rgb(169, 42, 52);
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0px 2px 4px -1px,
+    rgba(0, 0, 0, 0.14) 0px 4px 5px 0px,
+    rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;
+}
+
+.btn-submit-danger{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  margin: 28px 0px 0px;
+  user-select: none;
+  vertical-align: middle;
+  appearance: none;
+  text-decoration: none;
+  font-weight: 500;
+  line-height: 1.75;
+  letter-spacing: 0.02857em;
+  min-width: 64px;
+  padding: 6px 16px;
+  transition:
+    background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  width: 100%;
+  color: rgb(255, 255, 255);
+  border: none;
+  outline: none;
+  font-size: 18px;
+  border-radius: 40px;
+  text-transform: capitalize;
+  font-family: 'Avenir Next LT Pro' !important;
+}
+
+.footer-container{
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    justify-content: center;
+    width: 100%;
+    box-sizing: inherit;
+}
+
+.footer-container .footer{
+    margin: 16px 0px 0px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0.00938em;
+    -webkit-font-smoothing: antialiased;
+    font-size: 14px;
+    color: rgb(211, 211, 211);
+    font-family: "Avenir Next LT Pro" !important;
+}
+
+.footer-container .signup-link{
+    margin: 0px;
+    -webkit-font-smoothing: antialiased;
+    text-decoration: none;
+    font-size: 14px;
+    color: rgb(51, 122, 183);
+    font-family: "Avenir Next LT Pro" !important;
+}
+
+.footer-container .signup-link:hover{
+    text-decoration: underline;
+}
+
+.footer-container .login-link{
+  margin: 0px;
+  -webkit-font-smoothing: antialiased;
+  text-decoration: none;
+  font-size: 14px;
+  color: rgb(51, 122, 183);
+  font-family: "Avenir Next LT Pro" !important;
+}
+
+.footer-container .login-link:hover{
+  text-decoration: underline;
+}
