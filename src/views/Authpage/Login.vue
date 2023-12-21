@@ -78,7 +78,6 @@ export default {
     },
     computed: {
         isButtonDisabled() {
-            // Disable the button if either username or password is empty
             return this.email === '' || this.password === '' || !this.usernameError || this.passwordError;
         }
     },

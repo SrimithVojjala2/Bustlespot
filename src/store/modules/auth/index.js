@@ -7,7 +7,6 @@ export default {
     namespaced: true,
     state(){
         return{
-            token: '',
             isPrimeNumber: null,
             isOganisationPresent:null,
         }

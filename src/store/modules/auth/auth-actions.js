@@ -1,15 +1,27 @@
-import axios from "axios";
-import router from '@/router'; 
+import axios from 'axios'
+import router from '@/router'
 export default {
-    async login({commit},payload){
-        let userCredentials = payload;
-        let response = await axios.post(`
-        https://bustlespot-api.gamzinn.com/api/auth/signin`,userCredentials);
-
-        if(response.status === 200){
-            let postData = response.data.data;
-            commit('setToken',postData);
-            router.push({name:'home'})
-        }
-    },
+  async login({ commit }, payload) {
+    try {
+      let userCredentials = payload
+      let response = await axios.post(
+        `
+          https://bustlespot-api.gamzinn.com/api/auth/signin`,
+        userCredentials
+      )
+      if (response.status === 200) {
+        let postData = response.data.data;
+        commit('setToken', postData)
+        localStorage.setItem('jwtToken', postData.token)
+        localStorage.setItem('UserInfo',JSON.stringify(postData))
+        // const expiresIn = postData.expiresAt * 1000 - Date.now()
+        // setTimeout(() => {
+        //   localStorage.removeItem('jwtToken')
+        // }, expiresIn)
+        router.push({ name: 'home' })
+      }
+    } catch (error) {
+      console.error('Error in login:', error);
+    }
+  },
 }

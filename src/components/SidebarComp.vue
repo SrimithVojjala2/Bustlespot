@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div class="sidebar-main-container">
         <div class="sidebar-logo-container">
@@ -6,43 +7,53 @@
         </div>
         <div class="sidebar-section-container">
             <div class="section-container">
-                <ul class="list">
-                    <li>
-                        <router-link to="#" class="routelink-container">
+                <ul class="list" v-if="isOganisationPresent">
+                    <li >
+                        <router-link to="/organisation" class="routelink-container" active-class="active">
                             <div class="routelink">
-                                <img src="../assets/images/Organisation.svg" alt="organisation" class="logo">
+                                <span class="material-symbols-outlined logo">
+                                    corporate_fare
+                                </span>
                                 <span class="logo-title">Organisation</span>
                             </div>
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="#" class="routelink-container">
+                        <router-link to="/activity" class="routelink-container" active-class="active">
                             <div class="routelink">
-                                <img src="../assets/images/Activity.svg" alt="organisation" class="logo">
+                                <span class="material-symbols-outlined logo">
+                                    history
+                                </span>
                                 <span class="logo-title">Activity</span>
                             </div>
                         </router-link>
                     </li>
-                    <li>
-                        <router-link to="#" class="routelink-container">
+                    <li >
+                        <router-link to="/projects" class="routelink-container" active-class="active">
                             <div class="routelink">
-                                <img src="../assets/images/Organisation.svg" alt="organisation" class="logo">
+                                <span class="material-symbols-outlined logo">
+                                    dynamic_feed
+                                </span>
                                 <span class="logo-title">Projects</span>
                             </div>
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="#" class="routelink-container">
+                        <router-link to="/tasks" class="routelink-container" active-class="active">
                             <div class="routelink">
-                                <img src="../assets/images/Organisation.svg" alt="organisation" class="logo">
+                                <span class="material-symbols-outlined logo">
+                                    format_list_bulleted
+                                </span>
                                 <span class="logo-title">Tasks</span>
                             </div>
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="#" class="routelink-container">
+                        <router-link to="/report" class="routelink-container" active-class="active">
                             <div class="routelink">
-                                <img src="../assets/images/Organisation.svg" alt="organisation" class="logo">
+                                <span class="material-symbols-outlined logo">
+                                    summarize
+                                </span>
                                 <span class="logo-title">Report</span>
                             </div>
                         </router-link>
@@ -51,10 +62,24 @@
             </div>
             <div class="danger-btns">
                 <div class="btn-danger">
-                    <span>Download</span>
+                    <div class="routelink-container">
+                        <div class="routelink">
+                            <span class="material-symbols-outlined">
+                                download_2
+                            </span>
+                            <span class="logo-title">Download</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="btn-danger">
-                    <span>Logout</span>
+                    <div class="routelink-container" @click="logout">
+                        <div class="routelink">
+                            <span class="material-symbols-outlined">
+                                logout
+                            </span>
+                            <span class="logo-title">Logout</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -63,7 +88,16 @@
 
 <script>
 export default {
-
+    name:'SideBar',
+    props:['isOganisationPresent'],
+    methods:{
+        logout(){
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('UserInfo');
+            localStorage.removeItem('organisation')
+            window.location.reload();
+        }
+    },
 }
 </script>
 
@@ -88,6 +122,11 @@ export default {
 .sidebar-logo {
     margin-right: 8px;
 }
+
+.list .active{
+        color: rgb(255, 87, 34);
+}
+
 
 .title {
     user-select: none;
@@ -122,7 +161,6 @@ export default {
     padding: 0px;
     margin: 16px 0px 16px 0px;
     width: 252px;
-    transition: all 0.5s ease-in-out 0s;
     z-index: 2;
     overflow: hidden auto;
 }
@@ -130,6 +168,13 @@ export default {
 .routelink-container {
     color: rgb(124, 124, 124);
     text-decoration: none;
+}
+
+.routelink-container:hover{
+    text-decoration: none;
+    color: rgb(255, 87, 34);
+    outline: none;
+    cursor: pointer;
 }
 
 .routelink {
@@ -151,9 +196,18 @@ export default {
     width: 1em;
     height: 1em;
     display: inline-block;
-    fill: currentcolor;
+    fill: #7C7C7C;
     flex-shrink: 0;
-    transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     font-size: 1.5rem;
 }
+
+.danger-btns {
+    display: flex;
+    flex-direction: column;
+    color: rgb(124, 124, 124);
+    cursor: pointer;
+    width: fit-content;
+    margin-bottom: 1rem;
+}
+
 </style>
