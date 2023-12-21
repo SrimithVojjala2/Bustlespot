@@ -1,39 +1,47 @@
-
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
+import organisation from '@/views/Homepage/organisation.vue';
+import Activity from '@/views/Homepage/Activity.vue';
+import Projects from '@/views/Homepage/Projects.vue';
+import Tasks from '@/views/Homepage/Tasks.vue';
+import Report from '@/views/Homepage/Report.vue';
+import homeView from '@/views/homeView.vue';
 
 const routes = [
   {
-    path:'/',
-    name:'home',
+    path: '/',
+    name: 'home',
     redirect:'/organisation',
-    component: () => import('@/views/homeView.vue'),
-    props:true,
-    meta:{
-      requiresAuth:true
+    component: homeView,
+    meta: {
+      requiresAuth: true
     },
-    children:[
+
+    children: [
       {
-        path:'organisation',
-        name:'organisation',
-        component: () => import('@/views/Homepage/organisation.vue')
+        path: '/organisation',
+        name: 'organisation',
+        component: organisation,
       },
       {
-        path:'activity',
-        name:'Activity',
-        component: () => import('@/views/Homepage/Activity.vue')
-      },{
-        path:'projects',
-        name:'Projects',
-        component: () => import('@/views/Homepage/Projects.vue')
-      },{
-        path:'tasks',
-        name:'Tasks',
-        component: () => import('@/views/Homepage/Tasks.vue')
-      },{
-        path:'report',
-        name:'Report',
-        component: () => import('@/views/Homepage/Report.vue')
+        path: '/activity',
+        name: 'Activity',
+        component: Activity,
       },
+      {
+        path: '/projects',
+        name: 'Projects',
+        component:  Projects,
+      },
+      {
+        path: '/tasks',
+        name: 'Tasks',
+        component:  Tasks,
+      },
+      {
+        path: '/report',
+        name: 'Report',
+        component: Report,
+      }
     ]
   },
   {
@@ -57,7 +65,7 @@ const routes = [
         component: () => import('@/views/Authpage/ResetPassword.vue')
       }
     ]
-  },
+  }
 ]
 
 const router = createRouter({
@@ -66,22 +74,19 @@ const router = createRouter({
 })
 
 const isLoggedIn = () => {
-    const authToken = localStorage.getItem('jwtToken');
-    return authToken !== null && authToken !== undefined;
+  const authToken = localStorage.getItem('jwtToken')
+  return authToken !== null && authToken !== undefined
 }
 
-router.beforeEach((to, from,next) => {
-  if (to.name === 'Login' && isLoggedIn()) {
-    // Redirect to home page if already authenticated
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !isLoggedIn()) {
+    // Redirect to login page if authentication is required but user is not logged in
+    next({ name: 'Login' });
+  } else if (to.name === 'Login' && isLoggedIn()) {
+    // Redirect to home page if already authenticated and trying to access login page
     next({ name: 'home' });
-  }else if (to.meta.requiresAuth && !isLoggedIn()) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
-    next({
-      name: 'Login',
-    });
-  }
-  else{
+  } else {
+    // Continue with navigation
     next();
   }
 })

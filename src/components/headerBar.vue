@@ -14,7 +14,7 @@
                                 <img :src="organisationList.image" alt="noPhoto" class="image">
                             </div>
                             <p class="organisation-name">
-                                {{organisationList.name}}
+                                {{ organisationList.name }}
                             </p>
                             <span v-if="showOrganisationPopup" class="popup">
                                 <div class="popup-container">
@@ -22,7 +22,7 @@
                                         <img :src="organisationList.image" alt="noPhoto" class="image">
                                     </div>
                                     <p class="organisation-name">
-                                        {{  organisationList.name }}
+                                        {{ organisationList.name }}
                                     </p>
                                 </div>
                             </span>
@@ -32,7 +32,6 @@
             </div>
         </div>
     </header>
-    
 </template>
 
 <script>
@@ -43,6 +42,7 @@ export default {
             showOrganisationPopup: false,
         }
     },
+    
 }
 </script>
 

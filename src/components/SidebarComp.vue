@@ -8,8 +8,8 @@
         <div class="sidebar-section-container">
             <div class="section-container">
                 <ul class="list" v-if="isOganisationPresent">
-                    <li >
-                        <router-link to="/organisation" class="routelink-container" active-class="active">
+                    <li>
+                        <router-link :to="{name:'organisation'}" class="routelink-container" active-class="active">
                             <div class="routelink">
                                 <span class="material-symbols-outlined logo">
                                     corporate_fare
@@ -19,7 +19,7 @@
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="/activity" class="routelink-container" active-class="active">
+                        <router-link :to="{name:'Activity'}" class="routelink-container" active-class="active">
                             <div class="routelink">
                                 <span class="material-symbols-outlined logo">
                                     history
@@ -28,8 +28,8 @@
                             </div>
                         </router-link>
                     </li>
-                    <li >
-                        <router-link to="/projects" class="routelink-container" active-class="active">
+                    <li>
+                        <router-link :to="{name:'Projects'}" class="routelink-container" active-class="active">
                             <div class="routelink">
                                 <span class="material-symbols-outlined logo">
                                     dynamic_feed
@@ -39,7 +39,7 @@
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="/tasks" class="routelink-container" active-class="active">
+                        <router-link :to="{name:'Tasks'}" class="routelink-container" active-class="active">
                             <div class="routelink">
                                 <span class="material-symbols-outlined logo">
                                     format_list_bulleted
@@ -49,7 +49,7 @@
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="/report" class="routelink-container" active-class="active">
+                        <router-link :to="{name:'Report'}" class="routelink-container" active-class="active">
                             <div class="routelink">
                                 <span class="material-symbols-outlined logo">
                                     summarize
@@ -85,17 +85,23 @@
         </div>
     </div>
 </template>
-
 <script>
 export default {
-    name:'SideBar',
-    props:['isOganisationPresent'],
-    methods:{
-        logout(){
+    name: 'SideBar',
+    data() {
+        return {
+            isOganisationPresent:null,
+        }
+    },
+    mounted(){
+        this.isOganisationPresent = JSON.parse(localStorage.getItem('UserInfo'))
+    },
+    methods: {
+        logout() {
             localStorage.removeItem('jwtToken');
             localStorage.removeItem('UserInfo');
             localStorage.removeItem('organisation')
-            window.location.reload();
+            this.$router.replace('/login')
         }
     },
 }
@@ -123,8 +129,8 @@ export default {
     margin-right: 8px;
 }
 
-.list .active{
-        color: rgb(255, 87, 34);
+.list .active {
+    color: rgb(255, 87, 34);
 }
 
 
@@ -170,7 +176,7 @@ export default {
     text-decoration: none;
 }
 
-.routelink-container:hover{
+.routelink-container:hover {
     text-decoration: none;
     color: rgb(255, 87, 34);
     outline: none;
@@ -209,5 +215,4 @@ export default {
     width: fit-content;
     margin-bottom: 1rem;
 }
-
 </style>

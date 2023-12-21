@@ -3,14 +3,19 @@
     <div>
         organisation
     </div>
+    <div v-for="(i,index) in userDetails" :key="index">
+        {{ i }}
+    </div> 
 </template>
 
 <script>
-    export default {
-        
-    }
+export default {
+    props:['userDetails'],
+    data() {
+        return {
+        }
+    },
+}
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

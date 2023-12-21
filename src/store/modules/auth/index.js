@@ -7,8 +7,6 @@ export default {
     namespaced: true,
     state(){
         return{
-            isPrimeNumber: null,
-            isOganisationPresent:null,
         }
     },
     mutations,

@@ -1,10 +1,10 @@
 <template>
     <div class="container">
-        <div>
-            <keep-alive>
-                <SideBar :isOganisationPresent="isOganisationPresent"/>
-            </keep-alive>
-        </div>
+        <keep-alive>
+            <div>
+                <SideBar />
+            </div>
+        </keep-alive>
         <div class="section">
             <div>
                 <keep-alive>
@@ -15,10 +15,12 @@
                 <div>
                     <div v-if="isPrimeMember">
                         not in an organisation
-                        <div @click="is">click me</div>
                     </div>
                     <div v-if="isOganisationPresent">
-                        <router-view :key="$route.fullPath">
+                        <router-view v-slot="{ Component }">
+                            <keep-alive>
+                                <component :is="Component" :key="$route.path" :userDetails="userDetails"/>
+                            </keep-alive>
                         </router-view>
                     </div>
                 </div>
@@ -31,21 +33,22 @@
 import SideBar from '@/components/SidebarComp.vue';
 import HeaderBar from '@/components/headerBar.vue';
 import axios from 'axios';
-import { mapActions } from 'vuex';
 
 export default {
     data() {
         return {
             organisationList: [],
-            isPrimeMember:null,
-            isOganisationPresent:null,
+            userDetails: [],
+            isPrimeMember: null,
+            isOganisationPresent: null,
         }
     },
     components: { SideBar, HeaderBar },
     created() {
         this.getUserOrganisationDetails();
-        this.isPrimeMember=JSON.parse(localStorage.getItem('UserInfo')).isPrimeMember;
-        this.isOganisationPresent=JSON.parse(localStorage.getItem('UserInfo')).isOganisationPresent;
+        this.getUserDetails();
+        this.isPrimeMember = JSON.parse(localStorage.getItem('UserInfo')).isPrimeMember;
+        this.isOganisationPresent = JSON.parse(localStorage.getItem('UserInfo')).isOganisationPresent;
     },
     methods: {
         async getUserOrganisationDetails() {
@@ -61,7 +64,7 @@ export default {
                 if (response.status === 200) {
                     let data = response.data.data.organisationList[0];
                     this.organisationList = data;
-                    let OrgDetails= {'organisationId':data.organisationId};
+                    let OrgDetails = { 'organisationId': data.organisationId };
                     localStorage.setItem('organisation', JSON.stringify(OrgDetails));
                 } else {
                     console.error(`Request failed with status ${response.status}`);
@@ -72,8 +75,27 @@ export default {
                 throw error;
             }
         },
-        ...mapActions('auth', ['setOrganisationList'])
-    },
+        async getUserDetails() {
+            try {
+                let token = localStorage.getItem('jwtToken');
+                let organisationId = localStorage.getItem('organisation');
+                let response = await axios.post(`https://bustlespot-api.gamzinn.com/api/auth/userDetails`, organisationId, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": 'application/json'
+                    }
+                });
+
+                if (response.status === 200) {
+                    let data = response.data.data.user
+                    this.userDetails = data
+                }
+            } catch (error) {
+                console.error('Error during request:', error);
+                throw error;
+            }
+        }
+    }
 }
 </script>
 
