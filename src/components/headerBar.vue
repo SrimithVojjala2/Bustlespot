@@ -9,13 +9,15 @@
                                 S
                             </div>
                         </div>
-                        <button class="organisation-container" @click="showOrganisationPopup = !showOrganisationPopup">
-                            <div class="organisation-photo">
-                                <img :src="organisationList.image" alt="noPhoto" class="image">
+                        <button class="organisation-container">
+                            <div class="org-container-inside" @click="showOrganisationPopupChange(!showOrganisationPopup)">
+                                <div class="organisation-photo">
+                                    <img :src="organisationList.image" alt="noPhoto" class="image">
+                                </div>
+                                <p class="organisation-name">
+                                    {{ organisationList.name }}
+                                </p>
                             </div>
-                            <p class="organisation-name">
-                                {{ organisationList.name }}
-                            </p>
                             <span v-if="showOrganisationPopup" class="popup">
                                 <div class="popup-container">
                                     <div class="organisation-photo">
@@ -35,14 +37,23 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex'
 export default {
-    props:['organisationList'],
     data() {
         return {
-            showOrganisationPopup: false,
         }
     },
-    
+    mounted(){
+        console.log(this.organisationListval);
+        console.log('hello');
+    },
+    computed: {
+        ...mapState(['showOrganisationPopup','organisationList'])
+    },
+    methods: {
+        ...mapMutations(['showOrganisationPopupChange'])
+    }
+
 }
 </script>
 
@@ -191,8 +202,15 @@ export default {
     padding: 0px;
 }
 
-.organisation-container:active {
+.org-container-inside{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.org-container-inside:active {
     background-color: rgba(189, 189, 189, 0.24);
+    border-radius: 50%;
 }
 
 .organisation-name {
@@ -209,7 +227,6 @@ export default {
 
 .popup {
     overflow: hidden;
-    pointer-events: none;
     position: absolute;
     z-index: 1;
     left: auto;
@@ -220,9 +237,14 @@ export default {
     border-radius: 10px;
 }
 
-.popup-container {
+.popup .popup-container {
     padding: 10px;
     display: flex;
     align-items: center;
+}
+
+.popup-container:hover {
+    background-color: rgba(222, 184, 135, 0.397);
+    border-radius: 5px;
 }
 </style>

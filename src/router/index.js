@@ -1,70 +1,70 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import organisation from '@/views/Homepage/organisation.vue';
-import Activity from '@/views/Homepage/Activity.vue';
-import Projects from '@/views/Homepage/Projects.vue';
-import Tasks from '@/views/Homepage/Tasks.vue';
-import Report from '@/views/Homepage/Report.vue';
-import homeView from '@/views/homeView.vue';
-
+import { createRouter, createWebHistory } from 'vue-router'
+import organisation from '@/views/Homepage/organisation.vue'
+import Activity from '@/views/Homepage/Activity.vue'
+import Projects from '@/views/Homepage/Projects.vue'
+import Tasks from '@/views/Homepage/Tasks.vue'
+import Report from '@/views/Homepage/Report.vue'
+import isLoggedIn from './auth';
 const routes = [
   {
-    path: '/',
-    name: 'home',
+    path:'/',
+    component: ()=>import('@/views/homeView.vue'),
     redirect:'/organisation',
-    component: homeView,
+  },
+  {
+    path: '/organisation',
+    name: 'organisation',
+    components:{default: organisation, SideBar: () => import('@/components/SidebarComp.vue')},
     meta: {
       requiresAuth: true
     },
-
-    children: [
-      {
-        path: '/organisation',
-        name: 'organisation',
-        component: organisation,
-      },
-      {
-        path: '/activity',
-        name: 'Activity',
-        component: Activity,
-      },
-      {
-        path: '/projects',
-        name: 'Projects',
-        component:  Projects,
-      },
-      {
-        path: '/tasks',
-        name: 'Tasks',
-        component:  Tasks,
-      },
-      {
-        path: '/report',
-        name: 'Report',
-        component: Report,
-      }
-    ]
+  },
+  {
+    path: '/activity',
+    name: 'Activity',
+    components: {default:Activity,SideBar: () => import('@/components/SidebarComp.vue')},
+    meta: {
+      requiresAuth: true
+    },
+  },
+  {
+    path: '/projects',
+    name: 'Projects',
+    components: {default: Projects,SideBar: () => import('@/components/SidebarComp.vue')},
+    meta: {
+      requiresAuth: true
+    },
+  },
+  {
+    path: '/tasks',
+    name: 'Tasks',
+    components:{default:Tasks,SideBar: () => import('@/components/SidebarComp.vue')},
+    meta: {
+      requiresAuth: true
+    },
+  },
+  {
+    path: '/report',
+    name: 'Report',
+    components: {default:Report,SideBar: () => import('@/components/SidebarComp.vue')},
+    meta: {
+      requiresAuth: true
+    },
   },
   {
     path: '/login',
-    name: 'LoginView',
-    component: () => import('@/views/Authpage/Authpage.vue'),
-    children: [
-      {
-        path: '',
-        name: 'Login',
-        component: () => import('@/views/Authpage/Login.vue')
-      },
-      {
-        path: '/signup',
-        name: 'Signup',
-        component: () => import('@/views/Authpage/signup.vue')
-      },
-      {
-        path: '/forgot-password',
-        name: 'ForgotPassword',
-        component: () => import('@/views/Authpage/ResetPassword.vue')
-      }
-    ]
+    name: 'Login',
+    component: () => import('@/views/Authpage/Login.vue')
+  },
+  {
+    path: '/signup',
+    name: 'Signup',
+    component: () => import('@/views/Authpage/signup.vue')
+  },
+  {
+    path: '/forgot-password',
+    name: 'ForgotPassword',
+    component: () => import('@/views/Authpage/ResetPassword.vue')
   }
 ]
 
@@ -73,21 +73,18 @@ const router = createRouter({
   routes
 })
 
-const isLoggedIn = () => {
-  const authToken = localStorage.getItem('jwtToken')
-  return authToken !== null && authToken !== undefined
-}
+let isAuth = isLoggedIn();
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth && !isLoggedIn()) {
+  if (to.meta.requiresAuth && !isAuth) {
     // Redirect to login page if authentication is required but user is not logged in
-    next({ name: 'Login' });
-  } else if (to.name === 'Login' && isLoggedIn()) {
+    next({ name: 'Login' })
+  } else if (to.name === 'Login' && isAuth) {
     // Redirect to home page if already authenticated and trying to access login page
-    next({ name: 'home' });
+    next({ name: 'organisation' })
   } else {
     // Continue with navigation
-    next();
+    next()
   }
 })
 export default router

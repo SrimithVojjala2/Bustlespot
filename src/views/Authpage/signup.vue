@@ -1,98 +1,107 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div class="container">
-        <div class="header">
-            <p class="header-title">Welcome!</p>
-            <p class="header-section">Sign up</p>
+    <div class="view-container">
+        <div class="image-container">
+            <backgroundImage />
         </div>
-        <div class="form-container">
-            <form class="login-form" @submit.prevent="signup" style="width: 100%">
-                <div class="InputView">
-                    <TextInput label="Email ID" placeholder="Enter your email address" id="Email" type="text"
-                        @input="validateEmail" v-model="username">
-                        <template #icon>
-                            S
-                        </template>
-                        <template #error>
-                            <span v-if="usernameInvalid">
-                                Please enter your email
-                            </span>
-                            <span v-if="!usernameInvalid && !usernameError">
-                                Please enter a valid email address
-                            </span>
-                        </template>
-                    </TextInput>
+        <div class="router-view-container">
+            <div class="container">
+                <div class="header">
+                    <p class="header-title">Welcome!</p>
+                    <p class="header-section">Sign up</p>
                 </div>
-                <div class="InputView">
-                    <TextInput label="First name" id="FirstName" type="text" placeholder="Enter your first name"
-                        v-model="FirstName">
-                        <template #icon> FN </template>
-                        <template #error>
-                            <span v-if="firstnameError">Please enter your firstName</span>
-                        </template>
-                    </TextInput>
-                </div>
-                <div class="InputView">
-                    <TextInput label="Last name" id="LastName" type="text" placeholder="Enter your last name"
-                        v-model="LastName">
-                        <template #icon> LN </template>
-                        <template #error>
-                            <span v-if="lastnameError">Please enter your lastname</span>
-                        </template>
-                    </TextInput>
-                </div>
-                <div class="InputView">
-                    <TextInput label="Password" placeholder="Enter your password" id="Password"
-                        :type="tooglePassword ? 'password' : 'text'" @input="validatePassword" v-model="password">
-                        <template #icon>
-                            <span @click="togglePasswordVisibility" v-if="tooglePassword">P</Span>
-                            <span @click="togglePasswordVisibility" v-else>V</span>
-                        </template>
-                        <template #error>
-                            <span v-if="passwordInvalid">
-                                Please enter your password
-                            </span>
-                            <span v-if="!passwordInvalid && !passwordError">
-                                The password should include minimum 8 characters, 1 uppercase, 1 special character, 1
-                                number, 1 lowercase
-                            </span>
-                        </template>
-                    </TextInput>
-                </div>
-                <div class="InputView">
-                    <TextInput label="Confirm password" id="ConfirmPassword" placeholder="Confirm password"
-                        :type="toogleConfirmPassword ? 'password' : 'text'" v-model="ConfirmPassword">
-                        <template #icon>
-                            <span @click="toggleConfirmPasswordVisibility" v-if="toogleConfirmPassword">
-                                CP
-                            </span>
-                            <span v-else @click="toggleConfirmPasswordVisibility">
-                                PC
-                            </span>
+                <div class="form-container">
+                    <form class="login-form" @submit.prevent="signup" style="width: 100%">
+                        <div class="InputView">
+                            <TextInput label="Email ID" placeholder="Enter your email address" id="Email" type="text"
+                                @input="validateEmail" v-model="username">
+                                <template #icon>
+                                    S
+                                </template>
+                                <template #error>
+                                    <span v-if="usernameInvalid">
+                                        Please enter your email
+                                    </span>
+                                    <span v-if="!usernameInvalid && !usernameError">
+                                        Please enter a valid email address
+                                    </span>
+                                </template>
+                            </TextInput>
+                        </div>
+                        <div class="InputView">
+                            <TextInput label="First name" id="FirstName" type="text" placeholder="Enter your first name"
+                                v-model="FirstName">
+                                <template #icon> FN </template>
+                                <template #error>
+                                    <span v-if="firstnameError">Please enter your firstName</span>
+                                </template>
+                            </TextInput>
+                        </div>
+                        <div class="InputView">
+                            <TextInput label="Last name" id="LastName" type="text" placeholder="Enter your last name"
+                                v-model="LastName">
+                                <template #icon> LN </template>
+                                <template #error>
+                                    <span v-if="lastnameError">Please enter your lastname</span>
+                                </template>
+                            </TextInput>
+                        </div>
+                        <div class="InputView">
+                            <TextInput label="Password" placeholder="Enter your password" id="Password"
+                                :type="tooglePassword ? 'password' : 'text'" @input="validatePassword" v-model="password">
+                                <template #icon>
+                                    <span @click="togglePasswordVisibility" v-if="tooglePassword">P</Span>
+                                    <span @click="togglePasswordVisibility" v-else>V</span>
+                                </template>
+                                <template #error>
+                                    <span v-if="passwordInvalid">
+                                        Please enter your password
+                                    </span>
+                                    <span v-if="!passwordInvalid && !passwordError">
+                                        The password should include minimum 8 characters, 1 uppercase, 1 special character,
+                                        1
+                                        number, 1 lowercase
+                                    </span>
+                                </template>
+                            </TextInput>
+                        </div>
+                        <div class="InputView">
+                            <TextInput label="Confirm password" id="ConfirmPassword" placeholder="Confirm password"
+                                :type="toogleConfirmPassword ? 'password' : 'text'" v-model="ConfirmPassword">
+                                <template #icon>
+                                    <span @click="toggleConfirmPasswordVisibility" v-if="toogleConfirmPassword">
+                                        CP
+                                    </span>
+                                    <span v-else @click="toggleConfirmPasswordVisibility">
+                                        PC
+                                    </span>
 
-                        </template>
-                        <template #error>
-                            <span v-if="confirmpasswordInvalid">
-                                Please enter your confirm password
-                            </span>
-                            <span v-if="!confirmpasswordError && !confirmpasswordInvalid">
-                                Confirm password should match with password
-                            </span>
-                        </template>
-                    </TextInput>
+                                </template>
+                                <template #error>
+                                    <span v-if="confirmpasswordInvalid">
+                                        Please enter your confirm password
+                                    </span>
+                                    <span v-if="!confirmpasswordError && !confirmpasswordInvalid">
+                                        Confirm password should match with password
+                                    </span>
+                                </template>
+                            </TextInput>
+                        </div>
+                        <button type="submit"
+                            :class="{ 'btn-submit': !isButtonDisabled, 'btn-submit-danger': isButtonDisabled }"
+                            :disabled="isButtonDisabled">
+                            Sign up
+                        </button>
+                    </form>
                 </div>
-                <button type="submit" :class="{ 'btn-submit': !isButtonDisabled, 'btn-submit-danger': isButtonDisabled }"
-                    :disabled="isButtonDisabled">
-                    Sign up
-                </button>
-            </form>
-        </div>
-        <div class="footer-container">
-            <div class="footer">
-                Already have an account?
-            </div>
-            <div>
-                <router-link class="login-link" :to="{ name: 'Login' }">Login</router-link>
+                <div class="footer-container">
+                    <div class="footer">
+                        Already have an account?
+                    </div>
+                    <div>
+                        <router-link class="login-link" :to="{ name: 'Login' }">Login</router-link>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -100,9 +109,10 @@
 
 <script>
 import TextInput from '@/components/TextInput.vue';
+import backgroundImage from '@/components/backgroundImage.vue';
 import axios from 'axios';
 export default {
-    components: { TextInput },
+    components: { TextInput ,backgroundImage},
     data() {
         return {
             username: '',
@@ -200,7 +210,7 @@ export default {
             };
             axios.post('https://reqres.in/api/register', postdata)
                 .then((response) => console.log(response))
-                .catch( (error) => console.log(error))
+                .catch((error) => console.log(error))
         }
     },
 }
@@ -208,4 +218,5 @@ export default {
 
 <style scoped>
 @import url('./Login.css');
+@import url("./Authpage.css");
 </style>

@@ -18,6 +18,7 @@ export default {
         //   localStorage.removeItem('jwtToken')
         // }, expiresIn)
         router.push({ name: 'organisation' })
+        window.location.reload();
       }
     } catch (error) {
       console.error('Error in login:', error);

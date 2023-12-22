@@ -94,14 +94,14 @@ export default {
         }
     },
     mounted(){
-        this.isOganisationPresent = JSON.parse(localStorage.getItem('UserInfo'))
+        this.isOganisationPresent = JSON.parse(localStorage.getItem('UserInfo')).isOganisationPresent
     },
     methods: {
         logout() {
             localStorage.removeItem('jwtToken');
             localStorage.removeItem('UserInfo');
             localStorage.removeItem('organisation')
-            this.$router.replace('/login')
+            window.location.reload()
         }
     },
 }
