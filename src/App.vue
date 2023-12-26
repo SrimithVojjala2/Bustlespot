@@ -8,6 +8,7 @@
 </template>
 
 <script>
+
 import homeView from './views/homeView.vue';
 export default {
   components: { homeView },

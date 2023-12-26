@@ -21,8 +21,7 @@
             <div class="description2">
                 Get Ready for tour presence to make sense
             </div>
-        </div>
-        
+        </div>  
     </div>
 </template>
   

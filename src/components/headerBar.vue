@@ -12,19 +12,20 @@
                         <button class="organisation-container">
                             <div class="org-container-inside" @click="showOrganisationPopupChange(!showOrganisationPopup)">
                                 <div class="organisation-photo">
-                                    <img :src="organisationList.image" alt="noPhoto" class="image">
+                                    <img :src="organisationList[activeOrg].image" alt="noPhoto" class="image">
                                 </div>
                                 <p class="organisation-name">
-                                    {{ organisationList.name }}
+                                    {{ organisationList[activeOrg].name }}
                                 </p>
                             </div>
                             <span v-if="showOrganisationPopup" class="popup">
-                                <div class="popup-container">
+                                <div class="popup-container" v-for="(organisation, index) in organisationList" :key="index"
+                                    @click="handleOrgList(index, organisation)">
                                     <div class="organisation-photo">
-                                        <img :src="organisationList.image" alt="noPhoto" class="image">
+                                        <img :src="organisation.image" alt="noPhoto" class="image">
                                     </div>
                                     <p class="organisation-name">
-                                        {{ organisationList.name }}
+                                        {{ organisation.name }}
                                     </p>
                                 </div>
                             </span>
@@ -38,20 +39,82 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex'
+import axios from 'axios';
 export default {
     data() {
         return {
+            activeOrg: 0,
+            organisationList: [0],
+            userDetails: [],
         }
     },
-    mounted(){
-        console.log(this.organisationListval);
-        console.log('hello');
+    mounted() {
+        this.getUserOrganisationDetails();
     },
     computed: {
-        ...mapState(['showOrganisationPopup','organisationList'])
+        ...mapState(['showOrganisationPopup', 'activeOrgList'])
     },
     methods: {
-        ...mapMutations(['showOrganisationPopupChange'])
+        ...mapMutations(['showOrganisationPopupChange', 'setOrganisationList', 'activeOrgListChange']),
+        async getUserOrganisationDetails() {
+            try {
+                let token = localStorage.getItem('jwtToken');
+                const response = await axios.get('https://bustlespot-api.gamzinn.com/api/organisation/getUserOrganization', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.status === 200) {
+                    let data = response.data.data.organisationList;
+                    this.organisationList = data;
+                    this.setOrganisationList(this.organisationList);
+                    if (!localStorage.getItem("organisation")) {
+                        let OrgDetails = { 'organisationId': data[0].organisationId };
+                        localStorage.setItem('organisation', JSON.stringify(OrgDetails));
+                        this.activeOrg = 0;
+                    }      
+                    this.getUserDetails();
+                } else {
+                    console.error(`Request failed with status ${response.status}`);
+                    return null;
+                }
+            } catch (error) {
+                console.error('Error:', error.message);
+                return null;
+            }
+        },
+        async getUserDetails() {
+            try {
+                let token = localStorage.getItem('jwtToken');
+                let organisationId = JSON.parse(localStorage.getItem('organisation'));
+                let response = await axios.post('https://bustlespot-api.gamzinn.com/api/auth/userDetails', organisationId, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.status === 200) {
+                    let data = response.data.data.user;
+                    this.userDetails = data[0];
+                } else {
+                    // Handle other status codes if needed
+                    console.error(`Request failed with status ${response.status}`);
+                }
+            } catch (error) {
+                console.error('Error:', error.message);
+                // Handle error, e.g., show a user-friendly message
+            }
+        },
+        handleOrgList(index, organisation) {
+            this.activeOrg = index;
+            localStorage.removeItem('organisation');
+            let OrgDetails = { 'organisationId': organisation.organisationId };
+            localStorage.setItem('organisation', JSON.stringify(OrgDetails));
+            this.activeOrgListChange(organisation.organisationId);
+        }
     }
 
 }
@@ -202,7 +265,7 @@ export default {
     padding: 0px;
 }
 
-.org-container-inside{
+.org-container-inside {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -230,6 +293,7 @@ export default {
     position: absolute;
     z-index: 1;
     left: auto;
+    margin-right: 40px;
     top: 50px;
     background-color: white;
     padding: 10px;
