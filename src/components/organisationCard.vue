@@ -45,7 +45,7 @@ export default {
 
 <style scoped>
 .card-container {
-    width: 300px;
+    min-width: 350px;
     display: flex;
     gap: 1rem;
     box-shadow: rgba(200, 200, 200, 0.9) 0px 0px 10px;
@@ -102,7 +102,7 @@ export default {
 .org-details-container {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
+    gap: 0.3rem;
     margin-top: 0.4rem;
     font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
@@ -110,19 +110,19 @@ export default {
 .org-name {
     font-size: 18px;
     font-weight: 600;
-    margin-top: 0.2em;
+    padding: 2px 0px;
 }
 
 .org-admin-container {
     display: flex;
     gap: 4px;
-    font-size: medium;
+    font-size: 16px;
     margin-top: 0.2em;
 }
 
 .icon {
     font-size: 10px;
-    margin-top: 7px;
+    margin-top: 4px;
 }
 
 .admin-icon {

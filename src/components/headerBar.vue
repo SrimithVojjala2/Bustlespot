@@ -73,8 +73,10 @@ export default {
                     if (!localStorage.getItem("organisation")) {
                         let OrgDetails = { 'organisationId': data[0].organisationId };
                         localStorage.setItem('organisation', JSON.stringify(OrgDetails));
-                        this.activeOrg = 0;
-                    }      
+                        this.activeOrgListChange(data[0].organisationId)
+                    }else{
+                        this.activeOrg = this.organisationList.findIndex(org => org.organisationId === JSON.parse(localStorage.getItem('organisation')).organisationId);
+                    }
                     this.getUserDetails();
                 } else {
                     console.error(`Request failed with status ${response.status}`);

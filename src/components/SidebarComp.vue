@@ -14,7 +14,7 @@
                                 <span class="material-symbols-outlined logo">
                                     corporate_fare
                                 </span>
-                                <span class="logo-title">Organisation</span>
+                                <span class="logo-title">Organizations</span>
                             </div>
                         </router-link>
                     </li>

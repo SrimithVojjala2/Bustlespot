@@ -93,15 +93,18 @@ export default {
         }
     },
     computed: {
-        ...mapState(['invitations', 'organisationList', 'showActions']),
+        ...mapState(['invitations', 'organisationList', 'showActions','activeOrgList']),
         ...mapGetters(['adminlist', 'userList'])
     },
     mounted() {
         this.getUserInvitaion();
+        if(JSON.parse(localStorage.getItem('organisation'))){
+            this.activeOrgListChange(JSON.parse(localStorage.getItem('organisation')).organisationId)
+        }
     },
     methods: {
         ...mapActions(['getUserInvitaion']),
-        ...mapMutations(['showActionschange'])
+        ...mapMutations(['showActionschange','activeOrgListChange'])
     }
 }
 </script>
@@ -170,8 +173,7 @@ export default {
 
 p {
     display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
+    margin-block-end: 0.5em;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
 }
