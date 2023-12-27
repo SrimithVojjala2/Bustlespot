@@ -1,10 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import organisation from '@/views/Homepage/organisation.vue'
+import organisation from '@/views/Homepage/organisationView.vue'
 import Activity from '@/views/Homepage/Activity.vue'
 import Projects from '@/views/Homepage/Projects.vue'
 import Tasks from '@/views/Homepage/Tasks.vue'
 import Report from '@/views/Homepage/Report.vue'
 import isLoggedIn from './auth';
+import Teams from '@/views/Homepage/Teams.vue';
+import Members from '@/views/Homepage/Members.vue';
+import InviteMembers from '@/views/Homepage/InviteMembers.vue';
+import store from '@/store/store'
+
 const routes = [
   {
     path:'/',
@@ -50,6 +55,54 @@ const routes = [
     meta: {
       requiresAuth: true
     },
+  },
+  {
+    path: '/teams',
+    name: 'Teams',
+    components: {default:Teams,SideBar: () => import('@/components/SidebarComp.vue')},
+    meta: {
+      requiresAuth: true
+    },
+    beforeEnter: (to, from, next) => {
+      // Your custom logic here
+      if (store.state.roleId === 1 || store.state.roleId===2) {
+        next(); // Proceed to the route
+      } else {
+        next('/organisation'); // Redirect to another route
+      }
+    }
+  },
+  {
+    path: '/members',
+    name: 'Members',
+    components: {default:Members,SideBar: () => import('@/components/SidebarComp.vue')},
+    meta: {
+      requiresAuth: true
+    },
+    beforeEnter: (to, from, next) => {
+      // Your custom logic here
+      if (store.state.roleId === 1 || store.state.roleId===2) {
+        next(); // Proceed to the route
+      } else {
+        router.push('/organisation'); // Redirect to another route
+      }
+    }
+  },
+  {
+    path: '/invite-members',
+    name: 'InviteMembers',
+    components: {default:InviteMembers,SideBar: () => import('@/components/SidebarComp.vue')},
+    meta: {
+      requiresAuth: true
+    },
+    beforeEnter: (to, from, next) => {
+      // Your custom logic here
+      if (store.state.roleId === 1 || store.state.roleId===2) {
+        next(); // Proceed to the route
+      } else {
+        next('/organisation'); // Redirect to another route
+      }
+    }
   },
   {
     path: '/login',

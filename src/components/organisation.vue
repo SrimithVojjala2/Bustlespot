@@ -1,12 +1,12 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div class="main-container">
-        <div class="admin-org-container">
+        <div class="admin-org-container" v-if="adminlist.length>0">
             <div class="header-admin-org-container">
                 <p class="admin-org-title">
                     Administrative Organizations
                 </p>
-                <p class="admin-create-org admin-org-title">
+                <p class="admin-create-org admin-org-title" @click="$emit('changecurrentComp','createOrgComp')">
                     + Create New Organization
                 </p>
             </div>
@@ -16,10 +16,13 @@
                 </div>
             </div>
         </div>
-        <div class="admin-org-container non-admin-org">
+        <div class="admin-org-container non-admin-org" v-if="userList.length > 0">
             <div class="header-admin-org-container">
                 <p class="admin-org-title">
                     Non-Administrative Organizations
+                </p>
+                <p class="admin-create-org admin-org-title" v-if="adminlist.length <= 0" @click="$emit('changecurrentComp','createOrgComp')">
+                    + Create New Organization
                 </p>
             </div>
             <div class="main-admin-org-card-container">
@@ -28,14 +31,14 @@
                 </div>
             </div>
         </div>
-        <div class="admin-org-container pending-invitaions">
-            <div class="header-admin-org-container">
+        <div class="admin-org-container pending-invitaions" >
+            <div class="header-admin-org-container" >
                 <p class="admin-org-title">
                     Pending invitations
                 </p>
             </div>
-            <div class="invitation-container" v-if="invitations">
-                <div class="inner-invitations-container">
+            <div class="invitation-container" >
+                <div class="inner-invitations-container" v-if="invitations.length > 0">
                     <div class="title-container"></div>
                     <div class="inner-invitation-container">
                         <table class="invitation-table">
@@ -78,6 +81,9 @@
                         </table>
                     </div>
                 </div>
+                <div v-else class="empty-pending-list">
+                    <h2>You do not have any pending Invitations!</h2>
+                </div>
             </div>
         </div>
     </div>
@@ -88,6 +94,7 @@ import { mapActions, mapGetters, mapMutations, mapState } from 'vuex';
 import orgCard from "@/components/organisationCard.vue";
 export default {
     components: { orgCard },
+    emits:['changecurrentComp'],
     data() {
         return {
         }
@@ -381,5 +388,20 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.empty-pending-list{
+    display: grid;
+    gap: 2rem;
+    margin: 2rem 2rem 1rem;
+}
+
+.empty-pending-list h2{
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit;
+    text-align: center;
+    font-size: 25px;
 }
 </style>

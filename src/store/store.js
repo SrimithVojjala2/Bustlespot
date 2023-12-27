@@ -9,6 +9,7 @@ const store = createStore({
       organisationList: [],
       showActions: false,
       activeOrgList: null,
+      roleId: null,
     }
   },
   mutations: {
@@ -26,6 +27,9 @@ const store = createStore({
     },
     activeOrgListChange(state,payload){
       state.activeOrgList= payload 
+    },
+    setroleId(state,payload){
+      state.roleId = payload
     }
   },
   actions: {

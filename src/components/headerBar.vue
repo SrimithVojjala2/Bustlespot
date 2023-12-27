@@ -6,7 +6,8 @@
                     <div class="profile-container">
                         <div class="profile-logo-container">
                             <div class="profile-logo" style="height: 35px;width: 35px;box-shadow: grey 0px 0px 10px;">
-                                S
+                                <img :src="userDetails.profileImage" v-if='userDetails.profileImage' class='profile-image' >
+                                <p v-else style="color:black"></p>
                             </div>
                         </div>
                         <button class="organisation-container">
@@ -55,7 +56,7 @@ export default {
         ...mapState(['showOrganisationPopup', 'activeOrgList'])
     },
     methods: {
-        ...mapMutations(['showOrganisationPopupChange', 'setOrganisationList', 'activeOrgListChange']),
+        ...mapMutations(['setroleId','showOrganisationPopupChange', 'setOrganisationList', 'activeOrgListChange',"setroleId"]),
         async getUserOrganisationDetails() {
             try {
                 let token = localStorage.getItem('jwtToken');
@@ -73,9 +74,11 @@ export default {
                     if (!localStorage.getItem("organisation")) {
                         let OrgDetails = { 'organisationId': data[0].organisationId };
                         localStorage.setItem('organisation', JSON.stringify(OrgDetails));
-                        this.activeOrgListChange(data[0].organisationId)
+                        this.activeOrgListChange(data[0].organisationId);
+                        this.setroleId(data[0].roleId)
                     }else{
                         this.activeOrg = this.organisationList.findIndex(org => org.organisationId === JSON.parse(localStorage.getItem('organisation')).organisationId);
+                        this.setroleId(this.organisationList[this.activeOrg].roleId)
                     }
                     this.getUserDetails();
                 } else {
@@ -116,6 +119,9 @@ export default {
             let OrgDetails = { 'organisationId': organisation.organisationId };
             localStorage.setItem('organisation', JSON.stringify(OrgDetails));
             this.activeOrgListChange(organisation.organisationId);
+            this.showOrganisationPopupChange(false)
+            this.setroleId(organisation.roleId)
+            this.$router.push('/organisation')
         }
     }
 
@@ -136,7 +142,7 @@ export default {
     top: 0px;
     background-color: white;
     z-index: 1;
-    border-bottom: 1px solid rgb(223, 223, 223);
+    border-bottom: 1px solid rgba(223, 223, 223, 0.726);
     box-shadow: none;
     width: 100%;
 }
@@ -199,8 +205,6 @@ export default {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    width: 40px;
-    height: 40px;
     font-family: Roboto, Helvetica, Arial, sans-serif;
     font-size: 1.25rem;
     line-height: 1;
@@ -208,7 +212,7 @@ export default {
     overflow: hidden;
     user-select: none;
     color: rgb(255, 255, 255);
-    background-color: rgb(189, 189, 189);
+    background-color: rgb(245, 241, 241);
 }
 
 .organisation-photo {
@@ -312,5 +316,14 @@ export default {
 .popup-container:hover {
     background-color: rgba(222, 184, 135, 0.397);
     border-radius: 5px;
+}
+
+.profile-image{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    object-fit: cover;
+    color: transparent;
+    text-indent: 10000px;
 }
 </style>
