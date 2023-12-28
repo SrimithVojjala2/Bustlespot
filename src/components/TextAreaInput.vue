@@ -4,14 +4,14 @@
         <div class="main-container">
             <label :for="id" class="label">{{ label }}</label>
             <div class="inner-container">
-                <div class="input-icon-container">
-                    <div class="icon" name='Icon'>
+                <div class="textinput-icon-container">
+                    <div class="texticon" name='Icon'>
                         <slot name="icon">
                         </slot>
                     </div>
-                    <div class="input">
-                        <input :type="type" autocomplete="off" :placeholder="placeholder" :id="id" :value="modelValue"
-                            @input="$emit('update:modelValue', $event.target.value)" />
+                    <div class="textinput">
+                        <textarea :type="type" autocomplete="off" :placeholder="placeholder" :id="id" :value="modelValue"
+                            @input="$emit('update:modelValue', $event.target.value)" class="TextArea"></textarea>
                     </div>
                 </div>
                 <div class="validations">
@@ -71,7 +71,7 @@ export default {
     width: 100%;
 }
 
-.input-icon-container {
+.textinput-icon-container {
     border: none;
     background-color: rgb(45, 45, 45);
     border-radius: 0px;
@@ -91,52 +91,58 @@ export default {
     overflow: hidden;
     font-family: 'Avenir Next LT Pro' !important;
     user-select: none;
+    border: none;
+    background-color: rgb(249, 249, 249);
+    border-radius: 0px;
+    color: rgb(141, 141, 141);
+    font-size: 12px;
+    align-items: flex-start;
+    padding: 8.5px 14px;
 }
 
-.input-icon-container .icon {
+.textinput-icon-container .texticon {
     display: flex;
-    height: 0.01em;
-    max-height: 2em;
-    -webkit-box-align: center;
+    height: 1.6em;
     align-items: center;
     white-space: nowrap;
-    /* color: rgba(0, 0, 0, 0.54); */
+    color: rgba(0, 0, 0, 0.54);
     margin-right: 8px;
-    color: rgb(141, 141, 141);
 }
 
-.input-icon-container .input {
+.textinput-icon-container .textinput {
     width: 100%;
 }
 
-.input-icon-container .input input {
-    background-color: #e8f0fe00;
+.textinput-icon-container .textinput textarea {
     color: currentcolor;
-    letter-spacing: 0.3px;
-    outline: none;
     border: 0px;
+    outline: 0px;
     box-sizing: content-box;
     background: none;
-    height: 1.4375em;
     margin: 0px;
     display: block;
+    min-width: 0px;
     width: 100%;
-    padding: 8.5px 14px 8.5px 0px;
+    resize: none;
+    padding: 0px;
+    height: 85px;
 }
 
 .inner-container .validations {
     font-family: Roboto, Helvetica, Arial, sans-serif;
-    font-weight: 400;
     letter-spacing: 0.03333em;
     text-align: left;
     margin: 4px 0px 0px;
     line-height: 16px;
 }
 
-.inner-container .validations p {
-    font-size: 12px;
-    color: rgb(255, 0, 0);
+.inner-container .validations span {
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.03333em;
+    text-align: left;
     margin: 4px 0px 0px;
-    height: fit-content;
+    font-size: 11px;
+    line-height: 16px;
 }
 </style>

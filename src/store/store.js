@@ -9,7 +9,7 @@ const store = createStore({
       organisationList: [],
       showActions: false,
       activeOrgList: null,
-      roleId: null,
+      roleId: null
     }
   },
   mutations: {
@@ -22,13 +22,13 @@ const store = createStore({
     setOrganisationList(state, payload) {
       state.organisationList = payload
     },
-    showActionschange(state,payload){
+    showActionschange(state, payload) {
       state.showActions = payload
     },
-    activeOrgListChange(state,payload){
-      state.activeOrgList= payload 
+    activeOrgListChange(state, payload) {
+      state.activeOrgList = payload
     },
-    setroleId(state,payload){
+    setroleId(state, payload) {
       state.roleId = payload
     }
   },
@@ -58,14 +58,14 @@ const store = createStore({
         console.error('Error:', error.message)
         // Handle error, e.g., show a user-friendly message
       }
-    }
-  },
-  getters:{
-    adminlist:  (state) =>{
-      return state.organisationList.filter(org => org.roleId === 1 );
     },
-    userList:(state) =>{
-      return state.organisationList.filter(org => org.roleId === 4);
+  },
+  getters: {
+    adminlist: (state) => {
+      return state.organisationList.filter((org) => org.roleId === 1)
+    },
+    userList: (state) => {
+      return state.organisationList.filter((org) => org.roleId === 4)
     }
   },
   modules: {
