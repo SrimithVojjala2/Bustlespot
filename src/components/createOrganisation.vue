@@ -1,115 +1,190 @@
 <template>
     <div class="createOrg-container">
-        <button class="btn-back" @click="$emit('changecurrentComp', 'organisationComp')">
-            <el-icon color="black" :size="17">
-                <Back />
-            </el-icon>
-        </button>
-        <div class="form-container">
-            <form class="formOrganisation">
-                <div class="orgDescription">Organization Details</div>
-                <div class="org-inputs-container">
-                    <div class="org-name-details-container">
-                        <TextInput label="Organization Name*" type="text" v-model="orgName" class="org-input"
-                            placeholder="Enter your organization name">
-                            <template #icon>
-                                <el-icon color="rgb(210, 210, 210)" class="org-icon" :size="16">
-                                    <OfficeBuilding />
-                                </el-icon>
-                            </template>
-                            <template #error>
-                                <span v-if="orgNameError">Please enter your organization name </span>
-                                <span v-if="orgNameExists">Organisation name is already exist </span>
-                            </template>
-                        </TextInput>
-                        <TextArea type="text" v-model="orgDescription" placeholder="Enter your organization description"
-                            label="Organization Description*" class="org-textarea">
-                          <template #icon>
-                            <el-icon class="org-icon" :size="16" color="rgb(210, 210, 210)"
-                              ><Document
-                            /></el-icon>
-                          </template>
-                          <template #error>
-                            <span v-if="orgDescriptionError"
-                              >Please enter Description of your organization
-                            </span>
-                          </template>
-                        </TextArea>
-                    </div>
-                    <div style="width: 50%;">
-                        <div class="org-logo-container">
-                            <label style="color: darkgray;font-size: 12px;">Organisation Logo *</label>
-                            <input type="file" accept="image/png, image/jpeg" class="org-logo-input">
-                            <div class="org-logo">
-                                <el-icon size="38px" style="width: 1em;height: 1em;font-size: 2.1875rem;" color="rgb(210,210,210)"><upload-filled /></el-icon>
-                                <div class="org-logo-description" style="color: rgb(210,210,210)">Upload Logo</div>
-                            </div>
-                        </div>
-                    </div>
+      <button class="btn-back" @click="$emit('changecurrentComp', 'organisationComp')">
+        <el-icon color="black" :size="17">
+          <Back />
+        </el-icon>
+      </button>
+      <div class="form-container">
+        <form class="formOrganisation" @submit.prevent="addOrganisation">
+          <div class="orgDescription">Organization Details</div>
+          <div class="org-inputs-container">
+            <div class="org-name-details-container">
+              <TextInput
+                label="Organization Name*"
+                type="text"
+                v-model="orgName"
+                class="org-input"
+                placeholder="Enter your organization name"
+              >
+                <template #icon>
+                  <el-icon color="rgb(210, 210, 210)" class="org-icon" :size="16">
+                    <OfficeBuilding />
+                  </el-icon>
+                </template>
+                <template #error>
+                  <span v-if="orgNameError">Please enter your organization name </span>
+                  <span v-if="orgNameExists">Organization name already exists </span>
+                </template>
+              </TextInput>
+              <TextArea
+                type="text"
+                v-model="orgDescription"
+                placeholder="Enter your organization description"
+                label="Organization Description*"
+                class="org-textarea"
+              >
+                <template #icon>
+                  <el-icon class="org-icon" :size="16" color="rgb(210, 210, 210)">
+                    <Document />
+                  </el-icon>
+                </template>
+                <template #error>
+                  <span v-if="orgDescriptionError">Please enter the description of your organization</span>
+                </template>
+              </TextArea>
+            </div>
+            <div style="width: 50%;">
+              <div class="org-logo-container">
+                <label style="color: darkgray; font-size: 12px;">Organization Logo *</label>
+                <input
+                  type="file"
+                  ref="fileInput"
+                  @change="pickFile"
+                  accept="image/png, image/jpeg"
+                  class="org-logo-input"
+                />
+                <div class="org-logo" @click="selectImage">
+                  <el-icon
+                    size="38px"
+                    style="width: 1em; height: 1em; font-size: 2.1875rem;"
+                    color="rgb(210,210,210)"
+                    v-if="orgImage === null"
+                  >
+                    <UploadFilled />
+                  </el-icon>
+                  <div class="org-logo-description" style="color: rgb(210,210,210)" v-if="orgImage === null">
+                    Upload Logo
+                  </div>
+                  <img :src="orgImage" v-if="orgImage !== null" class="org-image" />
                 </div>
-                <button class="btn-submit"> submit </button>
-            </form>
-        </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn-submit" type="submit">Submit</button>
+        </form>
+      </div>
     </div>
-</template>
-
-<script>
-import { Back, OfficeBuilding, Document,UploadFilled } from '@element-plus/icons-vue'
-import TextArea from '@/components/TextAreaInput.vue'
-import TextInput from './TextInput.vue'
-import axios from 'axios'
-export default {
+  </template>
+  
+  <script>
+  import { Back, OfficeBuilding, Document, UploadFilled } from '@element-plus/icons-vue';
+  import TextArea from '@/components/TextAreaInput.vue';
+  import TextInput from './TextInput.vue';
+  import axios from 'axios';
+  
+  export default {
     emits: ['changecurrentComp'],
-    components: { Back, TextInput, OfficeBuilding, TextArea, Document,UploadFilled },
+    components: { Back, TextInput, OfficeBuilding, TextArea, Document, UploadFilled },
     data() {
-        return {
-            orgName: '',
-            orgDescription: '',
-            orgDescriptionError: false,
-            orgNameExists: false,
-            orgNameError: false
-        }
+      return {
+        orgName: '',
+        orgDescription: '',
+        orgDescriptionError: false,
+        orgNameExists: false,
+        orgNameError: false,
+        orgImage: null,
+        ImageMaxFileSize: 3 * 1024 * 1024,
+      };
     },
     watch: {
-        orgDescription(newval) {
-            if (newval === '') {
-                this.orgDescriptionError = true
-            } else {
-                this.orgDescriptionError = false
-            }
-        },
-        orgName(newval) {
-            if (newval === '') {
-                this.orgNameError = true
-            } else {
-                this.orgNameError = false
-                this.isOrganisationExist(newval)
-            }
+      orgDescription(newval) {
+        this.orgDescriptionError = newval === '';
+      },
+      orgName(newval) {
+        if (newval === '') {
+          this.orgNameError = true;
+        } else {
+          this.orgNameError = false;
+          this.isOrganisationExist(newval);
         }
+      },
     },
     methods: {
-        async isOrganisationExist(payload) {
-            let token = localStorage.getItem('jwtToken')
-            let response = await axios.post(
-                `https://bustlespot-api.gamzinn.com/api/organisation/isOrganisationExist`,
-                { organisationName: `${payload}` },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                }
-            )
-            if (response.status === 200) {
-                let data = response.data.data
-                this.orgNameExists = data.organisationExist
+      async isOrganisationExist(payload) {
+        try {
+          const token = localStorage.getItem('jwtToken');
+          const response = await axios.post(
+            `https://bustlespot-api.gamzinn.com/api/organisation/isOrganisationExist`,
+            { organisationName: `${payload}` },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
             }
+          );
+          if (response.status === 200) {
+            const data = response.data.data;
+            this.orgNameExists = data.organisationExist;
+          }
+        } catch (error) {
+          console.error('Error checking organization existence:', error);
         }
-    }
-}
-</script>
+      },
+      selectImage() {
+        this.$refs.fileInput.click();
+      },
+      pickFile() {
+        const input = this.$refs.fileInput;
+        const file = input.files;
+  
+        if (file && file[0]) {
+          if (file[0].size > this.ImageMaxFileSize) {
+            alert('File size exceeds the allowed limit (3 MB). Please choose a smaller file.');
+            return;
+          }
+  
+          const reader = new FileReader();
+  
+          reader.onload = (e) => {
+            this.orgImage = e.target.result;
+          };
+  
+          reader.readAsDataURL(file[0]);
+        }
+      },
+      async addOrganisation() {
+        try {
+          const token = localStorage.getItem('jwtToken');
+          const orgDetails = {
+            name: `${this.orgName}`,
+            description: `${this.orgDescription}`,
+            logo: `${this.orgImage}`,
+          };
+          const response = await axios.post(
+            `https://bustlespot-api.gamzinn.com/api/organisation/addOrganisation`,
+            orgDetails,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+          if (response.status === 200) {
+            this.$router.go(0);
+          }
+        } catch (error) {
+          console.error('Error adding organization:', error);
+        }
+      },
+    },
+  };
+  </script>
+  
 
-<style>
+<style scoped>
 .createOrg-container {
     height: calc(100vh - 50px);
     overflow-y: auto;
@@ -188,34 +263,7 @@ export default {
     padding: 10px 5px;
 }
 
-.inner-container {
-    display: inline-flex;
-    flex-direction: column;
-    position: relative;
-    min-width: 0px;
-    padding: 0px;
-    margin: 16px 0px 8px;
-    border: 0px;
-    vertical-align: top;
-    width: 100%;
-}
 
-.input-icon-container {
-    border: none;
-    background-color: rgb(249, 249, 249);
-    border-radius: 0px;
-    color: rgb(141, 141, 141);
-    font-size: 12px;
-}
-
-.input {
-    color: rgb(141, 141, 141);
-    font-weight: 400;
-}
-
-.label {
-    color: #a9a9a9;
-}
 
 .org-icon {
     font-size: 24px;
@@ -290,11 +338,11 @@ export default {
     padding: 0px 15px;
 }
 
-.org-logo-input{
+.org-logo-input {
     visibility: hidden !important;
 }
 
-.org-logo{
+.org-logo {
     border: 1px dashed;
     display: flex;
     align-items: center;
@@ -302,8 +350,13 @@ export default {
     flex-direction: column;
     height: 215px;
     cursor: pointer;
-    margin-top:2px;
+    margin-top: 2px;
 }
 
-
+.org-image{
+    width: 100%;
+    height: 200px;
+    padding: 5px;
+    cursor: pointer;
+}
 </style>

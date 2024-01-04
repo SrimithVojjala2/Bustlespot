@@ -5,9 +5,9 @@
                 <div class="header-section2">
                     <div class="profile-container">
                         <div class="profile-logo-container">
-                            <div class="profile-logo" style="height: 35px;width: 35px;box-shadow: grey 0px 0px 10px;">
+                            <div v-if="userDetails" class="profile-logo" style="height: 35px;width: 35px;box-shadow: grey 0px 0px 10px;" @click="$router.push('/profile')">
                                 <img :src="userDetails.profileImage" v-if='userDetails.profileImage' class='profile-image' >
-                                <p v-else style="color:black"></p>
+                                <p v-else style="color:black">{{ firstLetter }}</p>
                             </div>
                         </div>
                         <button class="organisation-container">
@@ -47,6 +47,7 @@ export default {
             activeOrg: 0,
             organisationList: [0],
             userDetails: [],
+            firstLetter:''
         }
     },
     mounted() {
@@ -104,6 +105,7 @@ export default {
                 if (response.status === 200) {
                     let data = response.data.data.user;
                     this.userDetails = data[0];
+                    this.firstLetter = this.userDetails.firstName[0]
                 } else {
                     // Handle other status codes if needed
                     console.error(`Request failed with status ${response.status}`);

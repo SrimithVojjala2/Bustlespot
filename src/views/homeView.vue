@@ -39,7 +39,7 @@ export default {
         }
     },
     components: { SideBar, HeaderBar },
-    mounted() {
+    created() {
         this.isPrimeMember = JSON.parse(localStorage.getItem('UserInfo')).isPrimeMember
         this.isOganisationPresent = JSON.parse(localStorage.getItem('UserInfo')).isOganisationPresent;
     },

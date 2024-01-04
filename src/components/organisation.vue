@@ -137,31 +137,18 @@ export default {
     padding: 1rem 0px;
 }
 
-.admin-org-container .header-admin-org-container {
-    display: flex;
-    -webkit-box-pack: justify;
-    justify-content: space-between;
-    margin: 1rem 2rem;
-    padding: 1rem 0px;
-}
-
-@media(max-width: 830px) {
-    .admin-org-container .main-admin-org-card-container {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 1100px) {
-    .admin-org-container .main-admin-org-card-container {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
 .admin-org-container .main-admin-org-card-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 2rem;
     margin: 2rem 2rem 1rem;
+}
+
+
+@media (max-width: 1100px) {
+    .admin-org-container .main-admin-org-card-container {
+        grid-template-columns: 1fr 1fr;
+    }
 }
 
 .admin-org-title {

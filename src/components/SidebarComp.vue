@@ -155,7 +155,7 @@ export default {
             localStorage.removeItem('jwtToken');
             localStorage.removeItem('UserInfo');
             localStorage.removeItem('organisation')
-            window.location.reload()
+            this.$router.push('/login')
         }
     },
 }

@@ -17,8 +17,7 @@ export default {
         // setTimeout(() => {
         //   localStorage.removeItem('jwtToken')
         // }, expiresIn)
-        router.push({ name: 'organisation' })
-        window.location.reload();
+        router.push('/organisation')
       }
     } catch (error) {
       console.error('Error in login:', error);

@@ -1,5 +1,5 @@
 <template>
-    <div class="card-container" :class="{'active': id}">
+    <div class="card-container" :class="{ 'active': id }">
         <div class="image-container">
             <div class="image" style="box-shadow: grey 0px 0px 10px">
                 <img :src="organisation.image" alt="image" class="img" />
@@ -29,7 +29,7 @@
             <template #footer>
                 <span>
                     <el-button @click="Deletepopup = false" class="dialog-btn">No</el-button>
-                    <el-button type="primary" @click="DeleteOrg" class="dialog-btn">
+                    <el-button type="primary" @click="DeleteOrg(organisation.organisationId)" class="dialog-btn">
                         Yes
                     </el-button>
                 </span>
@@ -39,29 +39,47 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from 'vuex';
+import axios from 'axios';
 export default {
     props: ['organisation'],
-    data(){
-        return{
+    data() {
+        return {
             Deletepopup: false,
         }
     },
-    computed:{
+    computed: {
         ...mapState(['activeOrgList']),
-        id(){
+        id() {
             return this.organisation.organisationId === this.activeOrgList
         }
     },
-    methods:{
-        Deletepopuphandle(){
-            if(this.activeOrgList !== this.organisation.organisationId){
+    methods: {
+        Deletepopuphandle() {
+            if (this.activeOrgList !== this.organisation.organisationId) {
                 this.Deletepopup = true
             }
         },
-        DeleteOrg(){
-            console.log('hello')
-            this.Deletepopup =false
+        async DeleteOrg(Id) {
+            try {
+                let token = localStorage.getItem('jwtToken');
+                let response = await axios.post(`https://bustlespot-api.gamzinn.com/api/organisation/deleteOrganisation`,{
+                    organisationId : `${Id}`
+                },{
+                    headers:{
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": 'application/json'
+                    }
+                });
+
+                if(response.status === 200){
+                    this.Deletepopup = false;
+                    this.$router.go(0);
+                }
+            }
+            catch (error) {
+                console.error(error);
+            }
         }
     }
 }   
@@ -69,7 +87,6 @@ export default {
 
 <style scoped>
 .card-container {
-    min-width: 350px;
     display: flex;
     gap: 1rem;
     box-shadow: rgba(200, 200, 200, 0.9) 0px 0px 10px;
@@ -169,7 +186,7 @@ export default {
     color: rgb(255, 87, 34);
 }
 
-.active{
+.active {
     box-shadow: rgb(255, 87, 34) 1px 1px 18px;
 }
 
