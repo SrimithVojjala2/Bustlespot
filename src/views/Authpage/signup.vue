@@ -16,7 +16,7 @@
                             <TextInput label="Email ID" placeholder="Enter your email address" id="Email" type="text"
                                 @input="validateEmail" v-model="username">
                                 <template #icon>
-                                    S
+                                    <el-icon size="20"><Message /></el-icon>
                                 </template>
                                 <template #error>
                                     <span v-if="usernameInvalid">
@@ -31,7 +31,7 @@
                         <div class="InputView">
                             <TextInput label="First name" id="FirstName" type="text" placeholder="Enter your first name"
                                 v-model="FirstName">
-                                <template #icon> FN </template>
+                                <template #icon><el-icon size="20"><UserFilled /></el-icon> </template>
                                 <template #error>
                                     <span v-if="firstnameError">Please enter your firstName</span>
                                 </template>
@@ -40,7 +40,7 @@
                         <div class="InputView">
                             <TextInput label="Last name" id="LastName" type="text" placeholder="Enter your last name"
                                 v-model="LastName">
-                                <template #icon> LN </template>
+                                <template #icon><el-icon size="20"><UserFilled /></el-icon></template>
                                 <template #error>
                                     <span v-if="lastnameError">Please enter your lastname</span>
                                 </template>
@@ -50,8 +50,8 @@
                             <TextInput label="Password" placeholder="Enter your password" id="Password"
                                 :type="tooglePassword ? 'password' : 'text'" @input="validatePassword" v-model="password">
                                 <template #icon>
-                                    <span @click="togglePasswordVisibility" v-if="tooglePassword">P</Span>
-                                    <span @click="togglePasswordVisibility" v-else>V</span>
+                                    <span @click="togglePasswordVisibility" v-if="tooglePassword"><el-icon size="20"><View /></el-icon></Span>
+                                    <span @click="togglePasswordVisibility" v-else><el-icon size="20"><Hide/></el-icon></span>
                                 </template>
                                 <template #error>
                                     <span v-if="passwordInvalid">
@@ -70,10 +70,10 @@
                                 :type="toogleConfirmPassword ? 'password' : 'text'" v-model="ConfirmPassword">
                                 <template #icon>
                                     <span @click="toggleConfirmPasswordVisibility" v-if="toogleConfirmPassword">
-                                        CP
+                                        <el-icon size="20"><View /></el-icon>
                                     </span>
                                     <span v-else @click="toggleConfirmPasswordVisibility">
-                                        PC
+                                        <el-icon size="20"><Hide/></el-icon>
                                     </span>
 
                                 </template>
@@ -111,8 +111,10 @@
 import TextInput from '@/components/TextInput.vue';
 import backgroundImage from '@/components/backgroundImage.vue';
 import axios from 'axios';
+import { Message,UserFilled,View,Hide} from '@element-plus/icons-vue';
 export default {
-    components: { TextInput ,backgroundImage},
+    // eslint-disable-next-line vue/no-reserved-component-names
+    components: { TextInput ,backgroundImage,Message,UserFilled,Hide,View},
     data() {
         return {
             username: '',

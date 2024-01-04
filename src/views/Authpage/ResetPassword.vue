@@ -18,7 +18,7 @@
                         <div class="InputView">
                             <TextInput label="Email ID" id="Email" type="text" @input="validateEmail" v-model="username">
                                 <template #icon>
-                                    S
+                                    <el-icon size="20"><Message /></el-icon>
                                 </template>
                                 <template #error>
                                     <span v-if="usernameInvalid">
@@ -50,8 +50,10 @@
 <script>
 import TextInput from '@/components/TextInput.vue';
 import backgroundImage from '@/components/backgroundImage.vue';
+import { Message} from '@element-plus/icons-vue';
+
 export default {
-    components: { TextInput,backgroundImage },
+    components: { TextInput,backgroundImage,Message },
     data() {
         return {
             username: '',

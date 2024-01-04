@@ -1,13 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import organisation from '@/views/Homepage/organisationView.vue'
-import Activity from '@/views/Homepage/Activity.vue'
-import Projects from '@/views/Homepage/Projects.vue'
-import Tasks from '@/views/Homepage/Tasks.vue'
-import Report from '@/views/Homepage/Report.vue'
-// import isLoggedIn from './auth'
-import Teams from '@/views/Homepage/Teams.vue'
-import Members from '@/views/Homepage/Members.vue'
-import InviteMembers from '@/views/Homepage/InviteMembers.vue'
 import store from '@/store/store'
 import isLoggedIn from './auth'
 
@@ -20,7 +11,7 @@ const routes = [
       {
         path: '/organisation',
         name: 'organisation',
-        component: organisation,
+        component: () => import('@/views/Homepage/organisationView.vue'),
         meta: {
           requiresAuth: true
         }
@@ -28,7 +19,7 @@ const routes = [
       {
         path: '/activity',
         name: 'Activity',
-        component: Activity,
+        component: () => import('@/views/Homepage/Activity.vue'),
         meta: {
           requiresAuth: true
         }
@@ -36,15 +27,15 @@ const routes = [
       {
         path: '/projects',
         name: 'Projects',
-        component: Projects,
-        meta: {
+        component: () => import('@/views/Homepage/Projects.vue'),
+        meta: { 
           requiresAuth: true
         }
       },
       {
         path: '/tasks',
         name: 'Tasks',
-        component: Tasks,
+        component: () => import('@/views/Homepage/Tasks.vue'),
         meta: {
           requiresAuth: true
         }
@@ -52,7 +43,7 @@ const routes = [
       {
         path: '/report',
         name: 'Report',
-        component: Report,
+        component: () => import('@/views/Homepage/Report.vue'),
         meta: {
           requiresAuth: true
         }
@@ -60,7 +51,7 @@ const routes = [
       {
         path: '/teams',
         name: 'Teams',
-        component: Teams,
+        component: () => import('@/views/Homepage/Teams.vue'),
         meta: {
           requiresAuth: true
         },
@@ -76,7 +67,7 @@ const routes = [
       {
         path: '/members',
         name: 'Members',
-        component: Members,
+        component: () => import('@/views/Homepage/Members.vue'),
         meta: {
           requiresAuth: true
         },
@@ -92,7 +83,7 @@ const routes = [
       {
         path: '/invite-members',
         name: 'InviteMembers',
-        component: InviteMembers,
+        component: () => import('@/views/Homepage/InviteMembers.vue'),
         meta: {
           requiresAuth: true
         },
@@ -108,11 +99,15 @@ const routes = [
       {
         path:'/profile',
         name:'Profile',
-        component: () => import('@/views/Homepage/Profile.vue'),
-        meta:{
-          requiresAuth: true
-        },
-      }
+        component:()=> import("@/views/Homepage/Profile.vue"),
+        children:[
+          {
+            path:'projects',
+            name:'userProjects',
+            component: () => import('@/views/Homepage/UserProjects.vue')
+          }
+        ]
+      },
     ],
     beforeEnter: (to,from,next) => {
       if(to.meta.requiresAuth && !isLoggedIn()){

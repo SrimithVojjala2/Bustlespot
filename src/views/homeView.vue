@@ -16,9 +16,7 @@
                     </div>
                     <div v-if="isOganisationPresent" class="router-view">
                         <router-view v-slot="{ Component }">
-                            <keep-alive>
                                 <component :is="Component" :key="$route.path"/>
-                            </keep-alive>
                         </router-view>
                     </div>
                 </div>
@@ -39,7 +37,7 @@ export default {
         }
     },
     components: { SideBar, HeaderBar },
-    created() {
+    mounted() {
         this.isPrimeMember = JSON.parse(localStorage.getItem('UserInfo')).isPrimeMember
         this.isOganisationPresent = JSON.parse(localStorage.getItem('UserInfo')).isOganisationPresent;
     },
@@ -56,7 +54,9 @@ export default {
 }
 
 .section {
-    width: 100%;
+    height: 100%;
+    width: calc(100vw - 252px);
+    overflow-y: auto;
 }
 
 .router-view {

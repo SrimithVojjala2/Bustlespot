@@ -20,7 +20,7 @@
                             <TextInput label="Email ID" placeholder="Enter your email address" id="Email" type="text"
                                 @input="validateEmail" v-model="email">
                                 <template #icon>
-                                    S
+                                    <el-icon size="20"><Message /></el-icon>
                                 </template>
                                 <template #error>
                                     <span v-if="usernameInvalid">
@@ -36,8 +36,8 @@
                             <TextInput label="Password" placeholder="Enter your password" id="Password"
                                 :type="tooglePassword ? 'password' : 'text'" v-model="password">
                                 <template #icon>
-                                    <span @click="togglePasswordVisibility" v-if="tooglePassword">P</span>
-                                    <span @click="togglePasswordVisibility" v-else>V</span>
+                                    <span @click="togglePasswordVisibility" class="togglepassword" v-if="tooglePassword"><el-icon size="20"><View /></el-icon></span>
+                                    <span @click="togglePasswordVisibility" class="togglepassword" v-else><el-icon size="20"><Hide/></el-icon></span>
                                 </template>
                                 <template #error>
                                     <span v-if="passwordError">
@@ -72,9 +72,11 @@
 <script>
 import TextInput from '@/components/TextInput.vue';
 import backgroundImage from '@/components/backgroundImage.vue';
+import { Message,View,Hide } from '@element-plus/icons-vue';
 import { mapActions } from 'vuex';
 export default {
-    components: { TextInput, backgroundImage },
+    // eslint-disable-next-line vue/no-reserved-component-names
+    components: { TextInput, backgroundImage,Message,View,Hide },
     data() {
         return {
             email: '',
@@ -131,4 +133,8 @@ export default {
 <style scoped>
 @import url("./Login.css");
 @import url("./Authpage.css");
+
+.togglepassword{
+    cursor: pointer;
+}
 </style>
