@@ -98,9 +98,14 @@ const routes = [
       },
       {
         path:'/profile',
-        name:'Profile',
+        name:'ProfileView',
         component:()=> import("@/views/Homepage/Profile.vue"),
         children:[
+          {
+            path:'',
+            name:'Profile',
+            component:() => import('@/components/userInfoCard.vue')
+          },
           {
             path:'projects',
             name:'userProjects',

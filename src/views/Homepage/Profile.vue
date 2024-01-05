@@ -4,9 +4,11 @@
         <div class="profile-username-container">
             <div class="profile-container">
                 <div class="profile">
-                    V
+                    <keep-alive>
+                        <img :src="userInfo.profileImage" class="profile-image">
+                    </keep-alive>
                 </div>
-                <div class="input-photo-container">
+                <div class="input-photo-container" :class="{ 'isnotActive': $route.path === '/profile/projects' }">
                     <el-button class="btn-camera" type="primary">
                         <el-icon class="icon-camera">
                             <CameraFilled />
@@ -18,13 +20,41 @@
                 Vojjala srimith
             </p>
         </div>
-        <div class="update-profile">
+        <div class="update-profile" :class="{ 'isnotActive': $route.path === '/profile/projects' }">
             <el-button class="update-profile-btn">
                 update Profile
             </el-button>
         </div>
-        <userInfoCard  :userInfo="userInfo"/>
-        <router-view></router-view>
+        <div class="userInfo-projects-container">
+            <div class="userInfo-projects-navbar">
+                <div class="userInfo-projects-navbar-tabs" style="overflow: hidden;margin-bottom: 0px;">
+                    <div class="navbar-tabs">
+                        <div>
+                            <el-button class="navbar-tab" @click="pushRoute('/profile')">
+                                USER INFO
+                            </el-button>
+                            <div>
+                                <span style="width:117.531px ;" v-if="$route.path === '/profile'" class="active"></span>
+                            </div>
+                        </div>
+                        <div>
+                            <el-button class="navbar-tab" @click="pushRoute('/profile/projects')">
+                                PROJECTS
+                            </el-button>
+                            <div>
+                                <span style="width:117.531px ;" v-if="$route.fullPath === '/profile/projects'"
+                                    class="active"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <router-view v-slot="{ Component }">
+                <keep-alive>
+                    <component :is="Component" :key="$route.path" :userInfo="userInfo" />
+                </keep-alive>
+            </router-view>
+        </div>
     </div>
 </template>
 
@@ -34,15 +64,18 @@ import { Briefcase, CameraFilled, Message, UserFilled } from '@element-plus/icon
 import UserInfoCard from '@/components/userInfoCard.vue';
 export default {
     // eslint-disable-next-line vue/no-unused-components
-    components: { CameraFilled, UserFilled, Message, Briefcase,UserInfoCard },
+    components: { CameraFilled, UserFilled, Message, Briefcase, UserInfoCard },
     data() {
         return {
             userInfo: '',
+            isActive: true,
+            userDetailsFetched: false,
         }
     },
     mounted() {
-        this.userDetails();
-        console.log('hell');
+        if (!this.userDetailsFetched) {
+            this.userDetails();
+        }
     },
     methods: {
         async userDetails() {
@@ -58,10 +91,22 @@ export default {
 
                 if (response.status === 200) {
                     this.userInfo = response.data.data.user[0];
+                    this.userDetailsFetched = true;
                 }
             }
             catch (error) {
                 console.error(error)
+            }
+        },
+        changeIsActive(val) {
+            this.isActive = val
+        },
+        pushRoute(val) {
+            if (val === '/profile') {
+                this.$router.push(val)
+            }
+            else {
+                this.$router.push(val)
             }
         }
     }
@@ -192,4 +237,83 @@ export default {
     margin-right: 40px !important;
 }
 
+.profile-image {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    object-fit: cover;
+    color: transparent;
+    text-indent: 10000px;
+    background-color: white;
+}
+
+.isnotActive {
+    display: none;
+}
+
+.userInfo-projects-container {
+    margin-top: 1rem;
+    height: calc(100% - 230px);
+    width: 100%;
+}
+
+.userInfo-projects-navbar {
+    overflow: hidden;
+    min-height: 48px;
+    display: flex;
+}
+
+.userInfo-projects-navbar-tabs {
+    position: relative;
+    display: inline-block;
+    flex: 1 1 auto;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.userInfo-projects-navbar-tabs .navbar-tabs {
+    display: flex;
+}
+
+.navbar-tabs .navbar-tab {
+    font-size: 15px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    background-color: transparent;
+    outline: 0px;
+    border: 0px;
+    margin: 0px;
+    border-radius: 0px;
+    cursor: pointer;
+    user-select: none;
+    vertical-align: middle;
+    appearance: none;
+    text-decoration: none;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.25;
+    letter-spacing: 0.02857em;
+    text-transform: uppercase;
+    max-width: 360px;
+    min-width: 90px;
+    position: relative;
+    min-height: 48px;
+    flex-shrink: 0;
+    padding: 12px 16px;
+    overflow: hidden;
+    white-space: normal;
+    text-align: center;
+    flex-direction: column;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.active {
+    position: absolute;
+    height: 2px;
+    bottom: 0px;
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    background-color: rgb(242, 60, 75);
+}
 </style>

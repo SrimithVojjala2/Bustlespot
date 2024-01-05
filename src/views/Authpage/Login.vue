@@ -124,7 +124,7 @@ export default {
                 email: this.email,
                 password: this.password
             }
-            this.login(userCredentials)
+           this.login(userCredentials)
         }
     }
 }
@@ -137,4 +137,5 @@ export default {
 .togglepassword{
     cursor: pointer;
 }
+
 </style>

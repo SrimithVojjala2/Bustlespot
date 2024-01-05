@@ -123,7 +123,6 @@ export default {
             this.activeOrgListChange(organisation.organisationId);
             this.showOrganisationPopupChange(false)
             this.setroleId(organisation.roleId)
-            this.$router.push('/organisation')
         }
     }
 
