@@ -7,8 +7,9 @@
 <script>
 import organisationComp from '@/components/organisation.vue';
 import createOrgComp from '@/components/createOrganisation.vue';
+import editOrganization from '@/components/editOrganization.vue';
     export default {
-        components:{organisationComp,createOrgComp},
+        components:{organisationComp,createOrgComp,editOrganization},
         data(){
             return{
                 currentComp: 'organisationComp',

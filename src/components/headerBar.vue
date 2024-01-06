@@ -5,8 +5,10 @@
                 <div class="header-section2">
                     <div class="profile-container">
                         <div class="profile-logo-container">
-                            <div v-if="userDetails" class="profile-logo" style="height: 35px;width: 35px;box-shadow: grey 0px 0px 10px;" @click="$router.push('/profile')">
-                                <img :src="userDetails.profileImage" v-if='userDetails.profileImage' class='profile-image' >
+                            <div v-if="userDetails" class="profile-logo"
+                                style="height: 35px;width: 35px;box-shadow: grey 0px 0px 10px;"
+                                @click="$router.push('/profile')">
+                                <img :src="userDetails.profileImage" v-if='userDetails.profileImage' class='profile-image'>
                                 <p v-else style="color:black">{{ firstLetter }}</p>
                             </div>
                         </div>
@@ -42,12 +44,13 @@
 import { mapMutations, mapState } from 'vuex'
 import axios from 'axios';
 export default {
+    emits: ['changecurrentComp'],
     data() {
         return {
             activeOrg: 0,
             organisationList: [0],
             userDetails: [],
-            firstLetter:''
+            firstLetter: ''
         }
     },
     mounted() {
@@ -57,7 +60,7 @@ export default {
         ...mapState(['showOrganisationPopup', 'activeOrgList'])
     },
     methods: {
-        ...mapMutations(['setroleId','showOrganisationPopupChange', 'setOrganisationList', 'activeOrgListChange',"setroleId"]),
+        ...mapMutations(['setroleId', 'showOrganisationPopupChange', 'setOrganisationList', 'activeOrgListChange', "setroleId"]),
         async getUserOrganisationDetails() {
             try {
                 let token = localStorage.getItem('jwtToken');
@@ -77,7 +80,7 @@ export default {
                         localStorage.setItem('organisation', JSON.stringify(OrgDetails));
                         this.activeOrgListChange(data[0].organisationId);
                         this.setroleId(data[0].roleId)
-                    }else{
+                    } else {
                         this.activeOrg = this.organisationList.findIndex(org => org.organisationId === JSON.parse(localStorage.getItem('organisation')).organisationId);
                         this.setroleId(this.organisationList[this.activeOrg].roleId)
                     }
@@ -319,7 +322,7 @@ export default {
     border-radius: 5px;
 }
 
-.profile-image{
+.profile-image {
     width: 100%;
     height: 100%;
     text-align: center;

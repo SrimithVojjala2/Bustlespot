@@ -144,5 +144,6 @@ export default {
     margin: 4px 0px 0px;
     font-size: 11px;
     line-height: 16px;
+    color: red;
 }
 </style>

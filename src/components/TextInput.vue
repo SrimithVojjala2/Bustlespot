@@ -97,12 +97,11 @@ export default {
     display: flex;
     height: 0.01em;
     max-height: 2em;
-    -webkit-box-align: center;
+    justify-content: center;
     align-items: center;
     white-space: nowrap;
-    /* color: rgba(0, 0, 0, 0.54); */
     margin-right: 8px;
-    color: rgb(141, 141, 141);
+    color: rgb(141, 141, 141)
 }
 
 .input-icon-container .input {

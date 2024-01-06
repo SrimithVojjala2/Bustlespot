@@ -12,7 +12,7 @@
             </div>
             <div class="main-admin-org-card-container">
                 <div class="main-admin-org-card-container-inside" v-for="(organisation, index) in adminlist" :key="index">
-                    <orgCard :organisation="organisation" />
+                    <orgCard :organisation="organisation" @changecurrentComp="changecurrentComp"/>
                 </div>
             </div>
         </div>
@@ -111,7 +111,10 @@ export default {
     },
     methods: {
         ...mapActions(['getUserInvitaion']),
-        ...mapMutations(['showActionschange','activeOrgListChange'])
+        ...mapMutations(['showActionschange','activeOrgListChange']),
+        changecurrentComp(val){
+            this.$emit('changecurrentComp',val)
+        }
     }
 }
 </script>

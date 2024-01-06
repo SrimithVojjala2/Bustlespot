@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="footer-section" v-if="organisation.roleId === 1">
-        <p class="footer">
+        <p class="footer" @click="handleChangecomponent(organisation)">
             Edit
         </p>
         |
@@ -39,10 +39,12 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 import axios from 'axios';
+import { ElMessage } from 'element-plus'
 export default {
     props: ['organisation'],
+    emits:['changecurrentComp'],
     data() {
         return {
             Deletepopup: false,
@@ -55,24 +57,33 @@ export default {
         }
     },
     methods: {
+        ...mapMutations(['seteditOrgDetails']),
         Deletepopuphandle() {
             if (this.activeOrgList !== this.organisation.organisationId) {
                 this.Deletepopup = true
+            }
+            else {
+                ElMessage({
+                    showClose: true,
+                    message: 'You can not delete the active organization',
+                    type: 'error',
+                    offset: 680
+                })
             }
         },
         async DeleteOrg(Id) {
             try {
                 let token = localStorage.getItem('jwtToken');
-                let response = await axios.post(`https://bustlespot-api.gamzinn.com/api/organisation/deleteOrganisation`,{
-                    organisationId : `${Id}`
-                },{
-                    headers:{
+                let response = await axios.post(`https://bustlespot-api.gamzinn.com/api/organisation/deleteOrganisation`, {
+                    organisationId: `${Id}`
+                }, {
+                    headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": 'application/json'
                     }
                 });
 
-                if(response.status === 200){
+                if (response.status === 200) {
                     this.Deletepopup = false;
                     this.$router.go(0);
                 }
@@ -80,6 +91,10 @@ export default {
             catch (error) {
                 console.error(error);
             }
+        },
+        handleChangecomponent(val) {
+            this.seteditOrgDetails(val)
+            this.$emit('changecurrentComp', 'editOrganization')
         }
     }
 }   

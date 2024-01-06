@@ -50,8 +50,8 @@
                             <TextInput label="Password" placeholder="Enter your password" id="Password"
                                 :type="tooglePassword ? 'password' : 'text'" @input="validatePassword" v-model="password">
                                 <template #icon>
-                                    <span @click="togglePasswordVisibility" v-if="tooglePassword"><el-icon size="20"><View /></el-icon></Span>
-                                    <span @click="togglePasswordVisibility" v-else><el-icon size="20"><Hide/></el-icon></span>
+                                    <span @click="togglePasswordVisibility" v-if="tooglePassword" style="cursor: pointer;"><el-icon size="20"><View /></el-icon></Span>
+                                    <span @click="togglePasswordVisibility" v-else><el-icon size="20" style="cursor: pointer;"><Hide/></el-icon></span>
                                 </template>
                                 <template #error>
                                     <span v-if="passwordInvalid">
@@ -69,10 +69,10 @@
                             <TextInput label="Confirm password" id="ConfirmPassword" placeholder="Confirm password"
                                 :type="toogleConfirmPassword ? 'password' : 'text'" v-model="ConfirmPassword">
                                 <template #icon>
-                                    <span @click="toggleConfirmPasswordVisibility" v-if="toogleConfirmPassword">
+                                    <span @click="toggleConfirmPasswordVisibility" v-if="toogleConfirmPassword" style="cursor: pointer;">
                                         <el-icon size="20"><View /></el-icon>
                                     </span>
-                                    <span v-else @click="toggleConfirmPasswordVisibility">
+                                    <span v-else @click="toggleConfirmPasswordVisibility" style="cursor: pointer;">
                                         <el-icon size="20"><Hide/></el-icon>
                                     </span>
 
