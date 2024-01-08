@@ -29,17 +29,31 @@
 import SideBar from '@/components/SidebarComp.vue';
 import HeaderBar from '@/components/headerBar.vue';
 import { mapMutations } from 'vuex';
+import { ElLoadingService } from 'element-plus';
 export default {
     data() {
         return {
             isPrimeMember: null,
             isOganisationPresent: null,
+            loadingInstance: null,
         }
     },
     components: { SideBar, HeaderBar },
     mounted() {
-        this.isPrimeMember = JSON.parse(localStorage.getItem('UserInfo')).isPrimeMember
-        this.isOganisationPresent = JSON.parse(localStorage.getItem('UserInfo')).isOganisationPresent;
+        this.loadingInstance = ElLoadingService({
+            fullscreen: true,
+            text: 'Loading...', 
+        });
+        setTimeout(() => {
+            this.isPrimeMember = JSON.parse(localStorage.getItem('UserInfo')).isPrimeMember;
+            this.isOganisationPresent = JSON.parse(localStorage.getItem('UserInfo')).isOganisationPresent;
+            this.loadingInstance.close();
+        }, 1000);
+    },
+    beforeUnmount(){
+        if (this.loadingInstance) {
+            this.loadingInstance.close();
+        }
     },
     methods:{
         ...mapMutations(['activeOrgListChange'])

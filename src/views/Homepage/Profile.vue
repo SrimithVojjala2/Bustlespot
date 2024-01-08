@@ -1,61 +1,63 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div class="main-container-wrapper">
-        <div class="profile-username-container">
-            <div class="profile-container">
-                <div class="profile">
-                    <keep-alive>
-                        <img :src="userInfo.profileImage" class="profile-image">
-                    </keep-alive>
+    <el-loading v-loading.fullscreen.lock="loading" text="Loading..." background="rgba(255, 255, 255, 0.7)">
+        <div class="main-container-wrapper">
+            <div class="profile-username-container">
+                <div class="profile-container">
+                    <div class="profile">
+                        <keep-alive>
+                            <img :src="userInfo.profileImage" class="profile-image">
+                        </keep-alive>
+                    </div>
+                    <div class="input-photo-container" :class="{ 'isnotActive': $route.path === '/profile/projects' }">
+                        <el-button class="btn-camera" type="primary">
+                            <el-icon class="icon-camera">
+                                <CameraFilled />
+                            </el-icon>
+                        </el-button>
+                    </div>
                 </div>
-                <div class="input-photo-container" :class="{ 'isnotActive': $route.path === '/profile/projects' }">
-                    <el-button class="btn-camera" type="primary">
-                        <el-icon class="icon-camera">
-                            <CameraFilled />
-                        </el-icon>
-                    </el-button>
-                </div>
+                <p class="username">
+                    Vojjala srimith
+                </p>
             </div>
-            <p class="username">
-                Vojjala srimith
-            </p>
-        </div>
-        <div class="update-profile" :class="{ 'isnotActive': $route.path === '/profile/projects' }">
-            <el-button class="update-profile-btn">
-                update Profile
-            </el-button>
-        </div>
-        <div class="userInfo-projects-container">
-            <div class="userInfo-projects-navbar">
-                <div class="userInfo-projects-navbar-tabs" style="overflow: hidden;margin-bottom: 0px;">
-                    <div class="navbar-tabs">
-                        <div>
-                            <el-button class="navbar-tab" @click="pushRoute('/profile')">
-                                USER INFO
-                            </el-button>
+            <div class="update-profile" :class="{ 'isnotActive': $route.path === '/profile/projects' }">
+                <el-button class="update-profile-btn">
+                    update Profile
+                </el-button>
+            </div>
+            <div class="userInfo-projects-container">
+                <div class="userInfo-projects-navbar">
+                    <div class="userInfo-projects-navbar-tabs" style="overflow: hidden;margin-bottom: 0px;">
+                        <div class="navbar-tabs">
                             <div>
-                                <span style="width:117.531px ;" v-if="$route.path === '/profile'" class="active"></span>
+                                <el-button class="navbar-tab" @click="pushRoute('/profile')">
+                                    USER INFO
+                                </el-button>
+                                <div>
+                                    <span style="width:117.531px ;" v-if="$route.path === '/profile'" class="active"></span>
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                            <el-button class="navbar-tab" @click="pushRoute('/profile/projects')">
-                                PROJECTS
-                            </el-button>
                             <div>
-                                <span style="width:117.531px ;" v-if="$route.fullPath === '/profile/projects'"
-                                    class="active"></span>
+                                <el-button class="navbar-tab" @click="pushRoute('/profile/projects')">
+                                    PROJECTS
+                                </el-button>
+                                <div>
+                                    <span style="width:117.531px ;" v-if="$route.fullPath === '/profile/projects'"
+                                        class="active"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <router-view v-slot="{ Component }">
+                    <keep-alive>
+                        <component :is="Component" :key="$route.path" :userInfo="userInfo" />
+                    </keep-alive>
+                </router-view>
             </div>
-            <router-view v-slot="{ Component }">
-                <keep-alive>
-                    <component :is="Component" :key="$route.path" :userInfo="userInfo" />
-                </keep-alive>
-            </router-view>
         </div>
-    </div>
+    </el-loading>
 </template>
 
 <script>
@@ -69,13 +71,11 @@ export default {
         return {
             userInfo: '',
             isActive: true,
-            userDetailsFetched: false,
+            loading: true,
         }
     },
     mounted() {
-        if (!this.userDetailsFetched) {
-            this.userDetails();
-        }
+        this.userDetails();
     },
     methods: {
         async userDetails() {
@@ -91,7 +91,7 @@ export default {
 
                 if (response.status === 200) {
                     this.userInfo = response.data.data.user[0];
-                    this.userDetailsFetched = true;
+                    this.loading = false
                 }
             }
             catch (error) {
