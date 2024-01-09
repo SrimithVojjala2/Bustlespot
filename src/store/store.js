@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import authModule from './modules/auth'
+import activityModule from './modules/activity'
 import axios from 'axios'
 const store = createStore({
   state() {
@@ -73,7 +74,8 @@ const store = createStore({
     }
   },
   modules: {
-    auth: authModule
+    auth: authModule,
+    activity: activityModule
   }
 })
 
