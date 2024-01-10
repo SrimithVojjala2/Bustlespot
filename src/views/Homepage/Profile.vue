@@ -64,6 +64,7 @@
 import axios from 'axios';
 import { Briefcase, CameraFilled, Message, UserFilled } from '@element-plus/icons-vue'
 import UserInfoCard from '@/components/userInfoCard.vue';
+import { mapState } from 'vuex';
 export default {
     // eslint-disable-next-line vue/no-unused-components
     components: { CameraFilled, UserFilled, Message, Briefcase, UserInfoCard },
@@ -73,6 +74,9 @@ export default {
             isActive: true,
             loading: true,
         }
+    },
+    computed:{
+        ...mapState(['activeOrgList'])
     },
     mounted() {
         this.userDetails();
@@ -108,6 +112,12 @@ export default {
             else {
                 this.$router.push(val)
             }
+        }
+    },
+    watch:{
+        activeOrgList(){
+            this.loading =true;
+            this.userDetails();
         }
     }
 }

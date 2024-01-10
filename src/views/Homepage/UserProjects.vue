@@ -37,6 +37,7 @@
 
 <script>
 import axios from 'axios';
+import { mapState } from 'vuex';
 export default {
     props: ['userInfo'],
     data() {
@@ -47,6 +48,9 @@ export default {
     },
     mounted() {
         this.getUserProject();
+    },
+    computed:{
+        ...mapState(['activeOrgList'])
     },
     methods: {
         async getUserProject() {
@@ -67,6 +71,12 @@ export default {
             catch (error) {
                 console.error(error)
             }
+        }
+    },
+    watch:{
+        activeOrgList(){
+            this.loading =true;
+            this.getUserProject();
         }
     }
 }

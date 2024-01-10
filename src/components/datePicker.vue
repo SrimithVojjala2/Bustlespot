@@ -1,6 +1,6 @@
 <template>
     <div class="date-picker-wrapper">
-      <el-date-picker v-model="value2" type="daterange" unlink-panels range-separator=" " :shortcuts="shortcuts"
+      <el-date-picker :editable="false"  v-model="value2" type="daterange" unlink-panels range-separator=" " :shortcuts="shortcuts"
       :clearable="false" :disabledDate="disabledDate" :style="style" @change='handleChange' />
       <button @click="goOneDayBackward" class="btn-date-picker"><el-icon>
           <Back />

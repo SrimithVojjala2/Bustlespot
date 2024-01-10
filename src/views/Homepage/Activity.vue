@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div class="main-container">
-        <button v-if="active === 'sstab'" class="btn-back" @click="active = 'activity'"><el-icon>
+        <button v-if="active === 'sstab'" class="btn-back" @click="handleChange"><el-icon>
                 <Back />
             </el-icon></button>
         <p class="main-title">
@@ -69,8 +69,9 @@ export default {
     },
     methods: {
         ...mapMutations('activity',['setFromToDate','setmemberId','setteamId','setprojectId']),
-        changeComp(val) {
-            this.active = val
+        changeComp(val,val2) {
+            this.active = val;
+            this.memberId = [val2.memberId]
         },
         changeFromToDetails(value) {
             this.fromToDetails = value;
@@ -129,6 +130,10 @@ export default {
             catch(error){
                 console.error(error);
             }
+        },
+        handleChange(){
+            this.active = 'activity'
+            this.$router.push('/activity')
         }
     },
     computed:{
